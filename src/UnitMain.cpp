@@ -24,6 +24,8 @@ TFormMain *FormMain;
 
 #define EX_VOL_SIGNATURE		"[EX VOL]"
 
+#define ECHO_SIGNATURE			"[ECHO PROFILE]"
+
 #define UPDATE_RATE_HZ			160
 #define DEFAULT_SPEED			(UPDATE_RATE_HZ/(120*(1.0/60.0)*4)) //default speed for 120 BPM
 
@@ -55,9 +57,15 @@ void handle_gme_error(gme_err_t error)
 
 
 
+
 instrumentStruct insList[MAX_INSTRUMENTS];
 
+echoNoiseProfileStruct echoNoiseProfile;	// echo profile for the entire project
+//unsigned char echo_tracker	= 0x00;			// used on compile to keep track of what EON byte to send whole to the SPC700
+unsigned char echo_force	= 0x00;			// used to allow the 'E' echo effect to override instruments' echo settings 
+unsigned char echo_rows[MAX_ROWS];
 
+bool dontTriggerCheckboxClick = false;
 
 unsigned char *BRRTemp;
 int BRRTempAllocSize;
@@ -1307,6 +1315,7 @@ void __fastcall TFormMain::InstrumentClear(int ins)
 	insList[ins].env_dr=7;
 	insList[ins].env_sl=7;
 	insList[ins].env_sr=0;
+	insList[ins].offset=0;
 
 	insList[ins].length=0;
 
@@ -1325,6 +1334,8 @@ void __fastcall TFormMain::InstrumentClear(int ins)
 	insList[ins].downsample_factor=0;
 
 	insList[ins].name="none";
+
+	
 }
 
 
@@ -1697,6 +1708,12 @@ void __fastcall TFormMain::InstrumentDataParse(int id,int ins)
 	insList[ins].ramp_enable      =gss_load_int(insname+"RampEnable=")?true:false;
 	insList[ins].loop_unroll      =gss_load_int(insname+"LoopUnroll=")?true:false;
 
+	insList[ins].offset          =gss_load_int(insname+"offset="); //returns 0 if it fails so you should be able to load offset-less instruments
+	insList[ins].echo_setting    =gss_load_int(insname+"echo_setting="); //returns 0 if it fails so you should be able to load echo_setting-less instruments
+	insList[ins].noise_setting   =gss_load_int(insname+"noise_setting="); //returns 0 if it fails so you should be able to load noise_setting-less instruments
+
+
+
 	insList[ins].source=gss_load_short_data(insname+"SourceData=");
 }
 
@@ -1733,6 +1750,29 @@ bool __fastcall TFormMain::ModuleOpenFile(AnsiString filename)
 		free(text);
 		return false;
 	}
+
+	//parse echo settings
+	if ( gss_find_tag(ECHO_SIGNATURE) >= 0){
+		echoNoiseProfile.FLG = gss_load_int("echo_FLG=");
+		echoNoiseProfile.NON = gss_load_int("echo_NON=");
+		echoNoiseProfile.EDL = gss_load_int("echo_EDL=");
+		echoNoiseProfile.ESA = gss_load_int("echo_ESA=");
+		echoNoiseProfile.EVOLL = gss_load_int("echo_EVOLL=");
+		echoNoiseProfile.EVOLR = gss_load_int("echo_EVOLR=");
+		echoNoiseProfile.EFB = gss_load_int("echo_EFB=");
+		echoNoiseProfile.EON = gss_load_int("echo_EON=");
+		echoNoiseProfile.FIR_C0 = gss_load_int("echo_FIR_C0=");
+		echoNoiseProfile.FIR_C1 = gss_load_int("echo_FIR_C1=");
+		echoNoiseProfile.FIR_C2 = gss_load_int("echo_FIR_C2=");
+		echoNoiseProfile.FIR_C3 = gss_load_int("echo_FIR_C3=");
+		echoNoiseProfile.FIR_C4 = gss_load_int("echo_FIR_C4=");
+		echoNoiseProfile.FIR_C5 = gss_load_int("echo_FIR_C5=");
+		echoNoiseProfile.FIR_C6 = gss_load_int("echo_FIR_C6=");
+		echoNoiseProfile.FIR_C7 = gss_load_int("echo_FIR_C7=");
+	} else {
+		ResetEchoNoiseProfile();
+	}
+	RefreshEchoTab();
 
 	if(gss_find_tag(EX_VOL_SIGNATURE)<0) ex_vol=false; else ex_vol=true;
 
@@ -1867,6 +1907,8 @@ bool __fastcall TFormMain::ModuleOpenFile(AnsiString filename)
 		}
 	}
 
+	
+
 	free(text);
 
 	UpdateSampleData=true;
@@ -1886,6 +1928,8 @@ void __fastcall TFormMain::UpdateAll(void)
 	SongListUpdate();
 	RenderPattern();
 	UpdateInfo(false);
+
+	
 
 	if(PageControlMode->ActivePage==TabSheetInfo) TabSheetInfoShow(this);
 }
@@ -1942,6 +1986,10 @@ void __fastcall TFormMain::InstrumentDataWrite(FILE *file,int id,int ins)
 	fprintf(file,"Instrument%iDownsampleFactor=%i\n",id,insList[ins].downsample_factor);
 	fprintf(file,"Instrument%iRampEnable=%i\n"      ,id,insList[ins].ramp_enable?1:0);
 	fprintf(file,"Instrument%iLoopUnroll=%i\n"      ,id,insList[ins].loop_unroll?1:0);
+	
+	fprintf(file,"Instrument%ioffset=%i\n"          ,id,insList[ins].offset);
+	fprintf(file,"Instrument%iecho_setting=%i\n"    ,id,insList[ins].echo_setting);
+	fprintf(file,"Instrument%inoise_setting=%i\n"   ,id,insList[ins].noise_setting);
 
 	fprintf(file,"Instrument%iSourceData=",id);
 
@@ -2003,6 +2051,27 @@ bool __fastcall TFormMain::ModuleSave(AnsiString filename)
 	if(!file) return false;
 
 	fprintf(file,"%s\n\n",PROJECT_SIGNATURE);
+
+
+	fprintf(file,"%s\n\n",ECHO_SIGNATURE);
+	fprintf(file,"echo_FLG=%i\n", echoNoiseProfile.FLG);
+	fprintf(file,"echo_NON=%i\n", echoNoiseProfile.NON);
+	fprintf(file,"echo_EDL=%i\n", echoNoiseProfile.EDL);
+	fprintf(file,"echo_ESA=%i\n", echoNoiseProfile.ESA);
+	fprintf(file,"echo_EVOLL=%i\n", echoNoiseProfile.EVOLL);
+	fprintf(file,"echo_EVOLR=%i\n", echoNoiseProfile.EVOLR);
+	fprintf(file,"echo_EFB=%i\n", echoNoiseProfile.EFB);
+	fprintf(file,"echo_EON=%i\n", echoNoiseProfile.EON);
+	fprintf(file,"echo_FIR_C0=%i\n", echoNoiseProfile.FIR_C0);
+	fprintf(file,"echo_FIR_C1=%i\n", echoNoiseProfile.FIR_C1);
+	fprintf(file,"echo_FIR_C2=%i\n", echoNoiseProfile.FIR_C2);
+	fprintf(file,"echo_FIR_C3=%i\n", echoNoiseProfile.FIR_C3);
+	fprintf(file,"echo_FIR_C4=%i\n", echoNoiseProfile.FIR_C4);
+	fprintf(file,"echo_FIR_C5=%i\n", echoNoiseProfile.FIR_C5);
+	fprintf(file,"echo_FIR_C6=%i\n", echoNoiseProfile.FIR_C6);
+	fprintf(file,"echo_FIR_C7=%i\n\n", echoNoiseProfile.FIR_C7);
+
+
 	fprintf(file,"%s\n\n",EX_VOL_SIGNATURE);
 
 	for(ins=0;ins<MAX_INSTRUMENTS;++ins) InstrumentDataWrite(file,ins,ins);
@@ -2054,7 +2123,8 @@ bool __fastcall TFormMain::ModuleSave(AnsiString filename)
 		fprintf(file,"\n");
 	}
 
-	fclose(file);
+	fprintf(file,"Song%iEffect=%i\n\n" ,song,songList[song].effect?1:0);
+
 
 	return true;
 }
@@ -2360,12 +2430,16 @@ void __fastcall TFormMain::InsUpdateControls(void)
 	LabelSL->Caption="SL: "+IntToStr(insList[InsCur].env_sl);
 	LabelSR->Caption="SR: "+IntToStr(insList[InsCur].env_sr);
 
+	lblOffset->Caption = "Offset: "+IntToStr(insList[InsCur].offset);
+
 	LabelVolume->Caption="Vol: "+IntToStr(insList[InsCur].source_volume);
 
 	TrackBarAR->Position=insList[InsCur].env_ar;
 	TrackBarDR->Position=insList[InsCur].env_dr;
 	TrackBarSL->Position=insList[InsCur].env_sl;
 	TrackBarSR->Position=insList[InsCur].env_sr;
+	
+	TrackBarOffset->Position = insList[InsCur].offset;
 
 	TrackBarVolume->Position=insList[InsCur].source_volume;
 
@@ -2392,6 +2466,21 @@ void __fastcall TFormMain::InsUpdateControls(void)
 	case 0: SpeedButtonDownsample1->Down=true; break;
 	case 1: SpeedButtonDownsample2->Down=true; break;
 	case 2: SpeedButtonDownsample4->Down=true; break;
+	}
+
+	switch(insList[InsCur].echo_setting)
+	{
+	case 0: btnEchoSetting0->Down=true; break;
+	case 1: btnEchoSetting1->Down=true; break;
+	case 2: btnEchoSetting2->Down=true; break;
+	default: btnEchoSetting0->Down=true; break;
+	}
+
+	switch(insList[InsCur].noise_setting)
+	{
+	case 0: btnNoiseSetting0->Down=true; break;
+	case 1: btnNoiseSetting1->Down=true; break;
+	default: btnNoiseSetting0->Down=true; break;
 	}
 
 	RenderADSR();
@@ -2838,6 +2927,17 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 	int new_play_adr,ref_len,best_ref_len,new_size,min_size,effect_volume;
 	bool change,insert_gap,key_is_on,porta_active,new_note_keyoff;
 
+	int current_note_code, offsetted_note_code;
+	current_note_code = 0;
+	offsetted_note_code = 0;
+
+	unsigned char echo_temp = 0x00;
+	unsigned char shiftbit = 0x00;
+	bool echo_instrument_change = false;
+
+	const int channel_or_mask[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
+	const int channel_and_mask[8] = {0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF, 0xBF, 0x7F};
+
 	play_adr=0;
 	loop_adr=0;
 	adr     =0;
@@ -2914,6 +3014,42 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 
 		if(n->note) change=true;
 
+
+
+
+
+        if (row == 0){
+			if (chn == 0){
+				echo_rows[row] = echoNoiseProfile.EON;
+			}
+		} else {
+			// copy only the relevant bit from the previous row
+			shiftbit = 0x01 << chn;
+			echo_rows[row] &= ~shiftbit;
+			echo_rows[row] |= echo_rows[row - 1] & shiftbit;
+		}
+		// 0: no setting    1: echoed instrument    2: echo-less instrument
+		if (insList[ins_last - 1].echo_setting == 1 ){
+			echo_rows[row] |= channel_or_mask[chn];
+
+		} else if (insList[ins_last - 1].echo_setting == 2){
+			echo_rows[row] &= channel_and_mask[chn];
+		}
+		// we are finishing up all rows
+		if (chn == 7){
+			echo_temp = (row == 0) ? echoNoiseProfile.EON : echo_rows[row - 1];
+			if (echo_rows[row] != echo_temp){
+				//actually send the instruction later after the call to DelayCompile
+				echo_instrument_change = true;
+				change = true;
+				
+			}
+		}
+
+
+
+
+		
 		if(change)
 		{
 			if(effect=='P') porta_active=(value?true:false);//detect portamento early to prevent inserting the keyoff gap
@@ -2990,6 +3126,12 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 				effect=0;
 			}
 
+			// instrument individual echo (before playing note)
+			if (echo_instrument_change){
+				SPCChnMem[adr++] = 150;
+				SPCChnMem[adr++] = echo_rows[row];
+			}
+
 			new_note_keyoff=(key_is_on&&insert_gap&&!porta_active)?true:false;
 
 			if((n->note<2&&!new_note_keyoff)&&effect_volume!=255)//volume, only insert it here when there is no new note with preceding keyoff, otherwise insert it after keyoff
@@ -3032,7 +3174,15 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 					effect_volume=255;
 				}
 
-				SPCChnMem[adr++]=(n->note-2)+150;
+
+
+
+				current_note_code = n->note - 2 + 150;
+				offsetted_note_code = current_note_code + insList[ins_last - 1].offset;
+				if (offsetted_note_code < 149) { offsetted_note_code = 149; }
+				if (offsetted_note_code > 244) { offsetted_note_code = 244; }
+				SPCChnMem[adr++] = offsetted_note_code;
+
 
 				key_is_on=true;
 			}
@@ -3175,6 +3325,8 @@ int __fastcall TFormMain::ChannelCompress(int compile_adr,int &play_adr,int loop
 
 		switch(tag)
 		{
+		case 243:
+		case 244:
 		case 247:
 		case 248:
 		case 249:
@@ -3214,7 +3366,8 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 	noteFieldStruct *n,*m;
 	int row,chn,adr,channels_all,channels_off,chn_size,play_adr,section_start,section_end,repeat_row;
 	bool active[8],find_ins,find_vol,repeat;
-
+	int i;
+	
 	s_original->compiled_size=0;
 
 	if(start_row>=s_original->length) return 0;//don't compile and play song if starting position is outside the song
@@ -3223,8 +3376,13 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 
 	SongCleanUp(&s);//cleanup instrument numbers and volume effect
 
-	//expand repeating sections
+	//initialize echo stuff
+	for (i = 0; i < MAX_ROWS; i++){
+		echo_rows[i] = 0x00;
+	}
+	echo_force = 0x00;
 
+	//expand repeating sections
 	for(chn=0;chn<8;++chn)
 	{
 		section_start=0;
@@ -3322,7 +3480,7 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 
 	//set default instrument number
 
-	for(chn=0;chn<8;++chn)
+	for(chn=0;chn<8;++chn)    //patate
 	{
 		for(row=0;row<MAX_ROWS;++row)
 		{
@@ -3342,6 +3500,7 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 	adr=start_adr+1+channels_all*2;
 
 	channels_off=start_adr+1;
+
 
 	for(chn=0;chn<8;++chn)
 	{
@@ -3411,11 +3570,37 @@ bool __fastcall TFormMain::SPCCompile(songStruct *s,int start_row,bool mute,bool
 	SPCMusicSize=0;
 	SPCEffectsSize=0;
 
+	// fiddle with the right bytes to make this project's "echo profile"
+	unsigned char temp_spc700_data[spc700_size];
+	for (int i = 0; i < spc700_size; i++) {
+		temp_spc700_data[i] = spc700_data[i];
+	}
+	temp_spc700_data[spc700_addr_FLG] = echoNoiseProfile.FLG;
+	temp_spc700_data[spc700_addr_NON] = echoNoiseProfile.NON;
+	temp_spc700_data[spc700_addr_ESA] = echoNoiseProfile.ESA;
+	temp_spc700_data[spc700_addr_EDL] = echoNoiseProfile.EDL;
+	temp_spc700_data[spc700_addr_EFB] = echoNoiseProfile.EFB;
+	temp_spc700_data[spc700_addr_C0] = echoNoiseProfile.FIR_C0;
+	temp_spc700_data[spc700_addr_C1] = echoNoiseProfile.FIR_C1;
+	temp_spc700_data[spc700_addr_C2] = echoNoiseProfile.FIR_C2;
+	temp_spc700_data[spc700_addr_C3] = echoNoiseProfile.FIR_C3;
+	temp_spc700_data[spc700_addr_C4] = echoNoiseProfile.FIR_C4;
+	temp_spc700_data[spc700_addr_C5] = echoNoiseProfile.FIR_C5;
+	temp_spc700_data[spc700_addr_C6] = echoNoiseProfile.FIR_C6;
+	temp_spc700_data[spc700_addr_C7] = echoNoiseProfile.FIR_C7;
+	temp_spc700_data[spc700_addr_EON] = echoNoiseProfile.EON;
+	temp_spc700_data[spc700_addr_EVOLL] = echoNoiseProfile.EVOLL;
+	temp_spc700_data[spc700_addr_EVOLR] = echoNoiseProfile.EVOLR;
+
+
+
+
 	//compile SPC700 RAM snapshot
 
 	code_adr=0x200;//start address for the driver in the SPC700 RAM
 
-	memcpy(&SPCMem[code_adr],spc700_data+header_size,spc700_size-header_size);//SPC700 driver code, header_size is for the extra header used by sneslib
+	//memcpy(&SPCMem[code_adr],spc700_data+header_size,spc700_size-header_size);//SPC700 driver code, header_size is for the extra header used by sneslib
+	memcpy(&SPCMem[code_adr],temp_spc700_data+header_size,spc700_size-header_size);//SPC700 driver code, header_size is for the extra header used by sneslib
 
 	sample_adr=code_adr+spc700_size-header_size;
 
@@ -3501,10 +3686,13 @@ bool __fastcall TFormMain::SPCCompile(songStruct *s,int start_row,bool mute,bool
 	//10180h    64 unused
 	//101C0h    64 Extra RAM (Memory region used when the IPL ROM region is setto read-only)
 
-	SPCMemTopAddr=music_adr;
 
-	return true;
-}
+	SPCMemTopAddr=music_adr;
+
+
+	return true;
+
+}
 
 
 
@@ -3626,6 +3814,8 @@ void __fastcall TFormMain::SPCPlayNote(int note,int ins)
 			break;
 		}
 	}
+
+	// play note one_note one_sample play_note
 
 	n=&tempSong.row[1].chn[0];
 
@@ -5090,8 +5280,12 @@ void __fastcall TFormMain::RenderMemoryUse(void)
 	float x,w,width,ppb,len;
 	int i,y,height,free,stream,ins;
 
+	// there's a bit of wasted space between F600 and F6E3
+	int echoDelayBufferSize = echoNoiseProfile.EDL > 0 ?(echoNoiseProfile.EDL * 0x800) : 4;
+
 	stream=28*9*9+64;//64 is IPL size
-	free=65536-512-(spc700_size-2)-SPCInstrumentsSize-SPCMusicSize-SPCEffectsSize-stream;
+	//free=65536-512-(spc700_size-2)-SPCInstrumentsSize-SPCMusicSize-SPCEffectsSize-stream;
+	free = 65536 - 512 - (spc700_size - 2) - SPCInstrumentsSize - SPCMusicSize - SPCEffectsSize - echoDelayBufferSize - stream;
 
 	c=PaintBoxMemoryUse->Canvas;
 
@@ -5189,6 +5383,13 @@ void __fastcall TFormMain::RenderMemoryUse(void)
 	c->Rectangle(x,0,width,height);
 	c->Brush->Style=bsSolid;
 
+
+	// echo delay buffer
+	w= echoDelayBufferSize * ppb;
+	x = x - w - 1;
+	c->Brush->Color=TColor(0x333333);
+	c->Rectangle(x,0,x+w,height);
+
 	//scale
 
 	x=0;
@@ -5250,6 +5451,13 @@ void __fastcall TFormMain::RenderMemoryUse(void)
 	c->Rectangle(0,y,15,y+15);
 	c->Brush->Color=Color;
 	c->TextOut(20,y-1,"Music data: "+IntToStr(SPCMusicSize)+" bytes (current), "+IntToStr(SPCMusicLargestSize)+" bytes (largest)           ");
+
+	y+=20;
+
+	c->Brush->Color=TColor(0x333333);
+	c->Rectangle(0,y,15,y+15);
+	c->Brush->Color=Color;
+	c->TextOut(20,y-1,"Echo Delay Buffer: "+IntToStr(echoDelayBufferSize)+" bytes           ");
 
 	y+=20;
 
@@ -6179,6 +6387,15 @@ void __fastcall TFormMain::SpeedButtonImportWavClick(TObject *Sender)
 void __fastcall TFormMain::PaintBoxADSRPaint(TObject *Sender)
 {
 	RenderADSR();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::TrackBarOffsetChange(TObject *Sender)
+{
+	insList[InsCur].offset=TrackBarOffset->Position;
+	InsUpdateControls();
+
+	UpdateSampleData=true;
 }
 //---------------------------------------------------------------------------
 
@@ -7743,7 +7960,7 @@ void __fastcall TFormMain::EditSongNameKeyPress(TObject *Sender, char &Key)
 
 void __fastcall TFormMain::MNewClick(TObject *Sender)
 {
-	if(Application->MessageBox("All current data wiil be lost. Are you sure you want to start a new project?","Confirm",MB_YESNO)!=ID_YES) return;
+	if(Application->MessageBox("All current data will be lost. Are you sure you want to start a new project?","Confirm",MB_YESNO)!=ID_YES) return;
 
 	ModuleInit();
 	ModuleClear();
@@ -7751,6 +7968,9 @@ void __fastcall TFormMain::MNewClick(TObject *Sender)
 	SPCCompile(&songList[0],0,false,false,-1);
 	CompileAllSongs();
 	UpdateAll();
+
+	ResetEchoNoiseProfile();
+	RefreshEchoTab();
 }
 //---------------------------------------------------------------------------
 
@@ -7762,6 +7982,237 @@ void __fastcall TFormMain::EditInsNameKeyPress(TObject *Sender, char &Key)
 
 		Key=0;
 	}
+
+
+}
+//---------------------------------------------------------------------------
+
+
+int echo_hextext_to_int(AnsiString the_string)
+{
+	AnsiString temp_string = the_string.UpperCase();
+
+	char char_high = '0';
+	char char_low = '0';
+	int hextext_total = 0;
+
+
+
+	if (temp_string.Length() == 2){
+		char_high = temp_string[1];
+		char_low = temp_string[2];
+	} else if (temp_string.Length() == 1) {
+		char_low = temp_string[1];
+	}
+
+	if(char_low>='0'&&char_low<='9') hextext_total += (char_low - '0');
+	if(char_low>='A'&&char_low<='F') hextext_total += (char_low - 'A' + 10);
+	if(char_high>='0'&&char_high<='9') hextext_total += ((char_high - '0') * 0x10);
+	if(char_high>='A'&&char_high<='F') hextext_total += ((char_high - 'A' +10) * 0x10);
+
+	return hextext_total;
+}
+
+AnsiString echo_int_to_hextext(int the_int){
+	char char_high = '0';
+	int int_high = 0;
+	char char_low = '0';
+	int int_low = 0;
+	AnsiString hextext_return = "";
+
+	if (the_int > 0x0f) {
+		int_high = (the_int / 0x10);
+		if (int_high >= 0x00 && int_high <= 0x09) char_high = int_high + '0';
+		if (int_high >= 0x0a && int_high <= 0x0f) char_high = int_high + 'A' - 10;
+	}
+	int_low = (the_int % 0x10);
+	if (int_low >= 0x00 && int_low <= 0x09) char_low = int_low + '0';
+	if (int_low >= 0x0a && int_low <= 0x0f) char_low = int_low + 'A' - 10;
+
+	hextext_return += char_high;
+	hextext_return += char_low;
+
+	return hextext_return;
+}
+
+
+void __fastcall TFormMain::PageControlModeChange(TObject *Sender)
+{
+	// Refresh the Echo tab's textboxes with current values
+	if (PageControlMode->ActivePageIndex == 4) {
+		RefreshEchoTab();
+	}
+}
+
+void __fastcall TFormMain::ResetEchoNoiseProfile(void){
+	echoNoiseProfile.FLG = 0x60;
+	echoNoiseProfile.NON = 0x00;
+	echoNoiseProfile.ESA = 0xF6;
+	echoNoiseProfile.EDL = 0x00;
+	echoNoiseProfile.EFB = 0x00;
+	echoNoiseProfile.EON = 0x00;
+	echoNoiseProfile.FIR_C0 = 0x7F;
+	echoNoiseProfile.FIR_C1 = 0x00;
+	echoNoiseProfile.FIR_C2 = 0x00;
+	echoNoiseProfile.FIR_C3 = 0x00;
+	echoNoiseProfile.FIR_C4 = 0x00;
+	echoNoiseProfile.FIR_C5 = 0x00;
+	echoNoiseProfile.FIR_C6 = 0x00;
+	echoNoiseProfile.FIR_C7 = 0x00;
+	echoNoiseProfile.EVOLL = 0x00;
+	echoNoiseProfile.EVOLR = 0x00;
+}
+
+
+void __fastcall TFormMain::RefreshTxtEONByte(void){
+	AnsiString bits = chkEON7->Checked ? "1" : "0";
+	bits += chkEON6->Checked ? "1" : "0";
+	bits += chkEON5->Checked ? "1" : "0";
+	bits += chkEON4->Checked ? "1" : "0";
+	bits += chkEON3->Checked ? "1" : "0";
+	bits += chkEON2->Checked ? "1" : "0";
+	bits += chkEON1->Checked ? "1" : "0";
+	bits += chkEON0->Checked ? "1" : "0";
+	txtEONByte->Text = bits;
+}
+
+
+void __fastcall TFormMain::RefreshEchoTab(void)
+{
+	txtEDL->Text = echo_int_to_hextext(echoNoiseProfile.EDL);
+	txtESA->Text = echo_int_to_hextext(echoNoiseProfile.ESA);
+	txtEVOLL->Text = echo_int_to_hextext(echoNoiseProfile.EVOLL);
+	txtEVOLR->Text = echo_int_to_hextext(echoNoiseProfile.EVOLR);
+	txtEFB->Text = echo_int_to_hextext(echoNoiseProfile.EFB);
+	txtFIR_C0->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C0);
+	txtFIR_C1->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C1);
+	txtFIR_C2->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C2);
+	txtFIR_C3->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C3);
+	txtFIR_C4->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C4);
+	txtFIR_C5->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C5);
+	txtFIR_C6->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C6);
+	txtFIR_C7->Text = echo_int_to_hextext(echoNoiseProfile.FIR_C7);
+
+	// 00000001 = 1
+	// 00000010 = 2
+	// 00000100 = 4
+	// 00001000 = 8
+	// 00010000 = 16
+	// 00100000 = 32
+	// 01000000 = 64
+	// 10000000 = 128
+	txtEONByte2->Text = echo_int_to_hextext(echoNoiseProfile.EON);
+	dontTriggerCheckboxClick = true;
+	chkEON0->Checked = (echoNoiseProfile.EON & 1) > 0;
+	chkEON1->Checked = (echoNoiseProfile.EON & 2) > 0;
+	chkEON2->Checked = (echoNoiseProfile.EON & 4) > 0;
+	chkEON3->Checked = (echoNoiseProfile.EON & 8) > 0;
+	chkEON4->Checked = (echoNoiseProfile.EON & 16) > 0;
+	chkEON5->Checked = (echoNoiseProfile.EON & 32) > 0;
+	chkEON6->Checked = (echoNoiseProfile.EON & 64) > 0;
+	chkEON7->Checked = (echoNoiseProfile.EON & 128) > 0;
+	dontTriggerCheckboxClick = false;
+	RefreshTxtEONByte();
+
+	txtFLG->Text = echo_int_to_hextext(echoNoiseProfile.FLG);
+	cmbFrequency->ItemIndex = echoNoiseProfile.FLG - 0x60;
+
+	txtNON->Text = echo_int_to_hextext(echoNoiseProfile.NON);
+	chkNON0->Checked = (echoNoiseProfile.NON & 1) > 0;
+	chkNON1->Checked = (echoNoiseProfile.NON & 2) > 0;
+	chkNON2->Checked = (echoNoiseProfile.NON & 4) > 0;
+	chkNON3->Checked = (echoNoiseProfile.NON & 8) > 0;
+	chkNON4->Checked = (echoNoiseProfile.NON & 16) > 0;
+	chkNON5->Checked = (echoNoiseProfile.NON & 32) > 0;
+	chkNON6->Checked = (echoNoiseProfile.NON & 64) > 0;
+	chkNON7->Checked = (echoNoiseProfile.NON & 128) > 0;
+}
+
+
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::txtEDLExit(TObject *Sender)
+{
+	int int_EDL = echo_hextext_to_int(txtEDL->Text);
+	txtESA->Text = echo_int_to_hextext(0xf6 - (int_EDL * 0x8));
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btnEchoApplyClick(TObject *Sender)
+{
+	echoNoiseProfile.EDL = echo_hextext_to_int(txtEDL->Text);
+	echoNoiseProfile.ESA = 0xf6 - (echoNoiseProfile.EDL * 0x8);
+	echoNoiseProfile.EVOLL = echo_hextext_to_int(txtEVOLL->Text);
+	echoNoiseProfile.EVOLR = echo_hextext_to_int(txtEVOLR->Text);
+	echoNoiseProfile.EFB = echo_hextext_to_int(txtEFB->Text);
+	echoNoiseProfile.FIR_C0 = echo_hextext_to_int(txtFIR_C0->Text);
+	echoNoiseProfile.FIR_C1 = echo_hextext_to_int(txtFIR_C1->Text);
+	echoNoiseProfile.FIR_C2 = echo_hextext_to_int(txtFIR_C2->Text);
+	echoNoiseProfile.FIR_C3 = echo_hextext_to_int(txtFIR_C3->Text);
+	echoNoiseProfile.FIR_C4 = echo_hextext_to_int(txtFIR_C4->Text);
+	echoNoiseProfile.FIR_C5 = echo_hextext_to_int(txtFIR_C5->Text);
+	echoNoiseProfile.FIR_C6 = echo_hextext_to_int(txtFIR_C6->Text);
+	echoNoiseProfile.FIR_C7 = echo_hextext_to_int(txtFIR_C7->Text);
+
+	// 00000001 = 1
+	// 00000010 = 2
+	// 00000100 = 4
+	// 00001000 = 8
+	// 00010000 = 16
+	// 00100000 = 32
+	// 01000000 = 64
+	// 10000000 = 128
+	echoNoiseProfile.EON = 0;
+	echoNoiseProfile.EON += chkEON0->Checked ? 1 : 0;
+	echoNoiseProfile.EON += chkEON1->Checked ? 2 : 0;
+	echoNoiseProfile.EON += chkEON2->Checked ? 4 : 0;
+	echoNoiseProfile.EON += chkEON3->Checked ? 8 : 0;
+	echoNoiseProfile.EON += chkEON4->Checked ? 16 : 0;
+	echoNoiseProfile.EON += chkEON5->Checked ? 32 : 0;
+	echoNoiseProfile.EON += chkEON6->Checked ? 64 : 0;
+	echoNoiseProfile.EON += chkEON7->Checked ? 128 : 0;
+
+	echoNoiseProfile.FLG = 0x00 + cmbFrequency->ItemIndex;
+
+	echoNoiseProfile.NON = 0;
+	echoNoiseProfile.NON += chkNON0->Checked ? 1 : 0;
+	echoNoiseProfile.NON += chkNON1->Checked ? 2 : 0;
+	echoNoiseProfile.NON += chkNON2->Checked ? 4 : 0;
+	echoNoiseProfile.NON += chkNON3->Checked ? 8 : 0;
+	echoNoiseProfile.NON += chkNON4->Checked ? 16 : 0;
+	echoNoiseProfile.NON += chkNON5->Checked ? 32 : 0;
+	echoNoiseProfile.NON += chkNON6->Checked ? 64 : 0;
+	echoNoiseProfile.NON += chkNON7->Checked ? 128 : 0;
+	
+
+	RefreshEchoTab();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::ChkEONClick(TObject *Sender)
+{
+	if (!dontTriggerCheckboxClick){
+		RefreshTxtEONByte();
+	} 
+}
+//---------------------------------------------------------------------------
+
+
+
+
+
+void __fastcall TFormMain::btnEchoSetting0Click(TObject *Sender)
+{
+	insList[InsCur].echo_setting =((TSpeedButton*)Sender)->Tag;
+	InsUpdateControls();
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TFormMain::btnNoiseSetting0Click(TObject *Sender)
+{
+	insList[InsCur].noise_setting =((TSpeedButton*)Sender)->Tag;
+	InsUpdateControls();
 }
 //---------------------------------------------------------------------------
 

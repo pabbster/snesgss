@@ -14,6 +14,8 @@
 #include <ComCtrls.hpp>
 #include <FileCtrl.hpp>
 
+
+
 #include <vcl.h>
 #include <windows.h>
 #include <mmsystem.h>
@@ -60,6 +62,10 @@ struct instrumentStruct {
 	int eq_high;
 	
 	AnsiString name;
+
+	int offset; //offset in number of semitones (some instruments from game rips aren't in tune with each other)
+	int echo_setting; // 0: no setting    1: echoed instrument    2: echo-less instrument
+	int noise_setting; // 0: normal instrument		1: noise instrument
 };
 
 struct noteFieldStruct {
@@ -98,6 +104,44 @@ struct undoStruct {
 
 	int colCur;
 	int rowCur;
+};
+
+struct echoNoiseProfileStruct{
+	unsigned char FLG;
+	unsigned char NON;
+	unsigned char ESA;		// Echo buffer start address
+	unsigned char EDL;		// Echo buffer length (times 0x100)
+	unsigned char EFB;		// Echo Feedback
+	unsigned char FIR_C0;	// FIR C0
+	unsigned char FIR_C1;	// FIR C1
+	unsigned char FIR_C2;	// FIR C2
+	unsigned char FIR_C3;	// FIR C3
+	unsigned char FIR_C4;	// FIR C4
+	unsigned char FIR_C5;	// FIR C5
+	unsigned char FIR_C6;	// FIR C6
+	unsigned char FIR_C7;	// FIR C7
+	unsigned char EON;		// Echo flags   chn7 -> | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | <-chn0
+	unsigned char EVOLL;	// Echo Volume L
+	unsigned char EVOLR;	// Echo Volume R
+
+	echoNoiseProfileStruct():
+		FLG(0x00),
+		NON(0x00),
+		ESA(0xF6),
+		EDL(0x00),
+		EFB(0x00),
+		FIR_C0(0x7F),
+		FIR_C1(0x00),
+		FIR_C2(0x00),
+		FIR_C3(0x00),
+		FIR_C4(0x00),
+		FIR_C5(0x00),
+		FIR_C6(0x00),
+		FIR_C7(0x00),
+		EON(0x00),
+		EVOLL(0x00),
+		EVOLR(0x00)
+	{}
 };
 
 //---------------------------------------------------------------------------
@@ -252,6 +296,71 @@ class TFormMain : public TForm
 	TMenuItem *N11;
 	TMenuItem *N12;
 	TMenuItem *MInstrumentAutoNumber;
+	TTabSheet *TabSheetEchoProfile;
+	TEdit *txtFIR_C0;
+	TEdit *txtFIR_C4;
+	TEdit *txtFIR_C3;
+	TEdit *txtFIR_C7;
+	TEdit *txtFIR_C6;
+	TEdit *txtFIR_C1;
+	TEdit *txtFIR_C2;
+	TEdit *txtFIR_C5;
+	TButton *btnEchoApply;
+	TLabel *Label10;
+	TLabel *lblBufferAddress;
+	TLabel *lblFIR;
+	TLabel *Label16;
+	TGroupBox *groupFIR;
+	TGroupBox *groupDelay;
+	TLabel *lblDelay;
+	TEdit *txtEDL;
+	TEdit *txtESA;
+	TGroupBox *groupEvol;
+	TLabel *lblEchoVolumeL;
+	TLabel *lblEchoVolumeR;
+	TLabel *lblFeedback;
+	TEdit *txtEFB;
+	TEdit *txtEVOLR;
+	TEdit *txtEVOLL;
+	TGroupBox *groupEON;
+	TLabel *lblEON1;
+	TLabel *lblEON2;
+	TEdit *txtEONByte;
+	TCheckBox *chkEON0;
+	TCheckBox *chkEON1;
+	TCheckBox *chkEON5;
+	TCheckBox *chkEON4;
+	TCheckBox *chkEON3;
+	TCheckBox *chkEON7;
+	TCheckBox *chkEON2;
+	TCheckBox *chkEON6;
+	TEdit *txtEONByte2;
+	TLabel *Label9;
+	TGroupBox *GroupBox1;
+	TLabel *Label11;
+	TLabel *Label12;
+	TCheckBox *chkNON0;
+	TCheckBox *chkNON1;
+	TCheckBox *chkNON5;
+	TCheckBox *chkNON4;
+	TCheckBox *chkNON3;
+	TCheckBox *chkNON7;
+	TCheckBox *chkNON2;
+	TCheckBox *chkNON6;
+	TEdit *txtNON;
+	TEdit *txtFLG;
+	TLabel *Label13;
+	TComboBox *cmbFrequency;
+	TGroupBox *GroupBoxOffset;
+	TLabel *lblOffset;
+	TTrackBar *TrackBarOffset;
+	TGroupBox *GroupBoxEchoSetting;
+	TSpeedButton *btnEchoSetting0;
+	TSpeedButton *btnEchoSetting1;
+	TSpeedButton *btnEchoSetting2;
+	TGroupBox *GroupBoxNoise;
+	TSpeedButton *btnNoiseSetting0;
+	TSpeedButton *btnNoiseSetting1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall MExitClick(TObject *Sender);
@@ -260,7 +369,7 @@ class TFormMain : public TForm
 	void __fastcall MSaveClick(TObject *Sender);
 	void __fastcall SpeedButtonImportWavClick(TObject *Sender);
 	void __fastcall PaintBoxADSRPaint(TObject *Sender);
-	void __fastcall TrackBarARChange(TObject *Sender);
+	void __fastcall TrackBarOffsetChange(TObject *Sender);
 	void __fastcall TrackBarDRChange(TObject *Sender);
 	void __fastcall TrackBarSLChange(TObject *Sender);
 	void __fastcall TrackBarSRChange(TObject *Sender);
@@ -350,6 +459,13 @@ class TFormMain : public TForm
 	void __fastcall EditSongNameKeyPress(TObject *Sender, char &Key);
 	void __fastcall MNewClick(TObject *Sender);
 	void __fastcall EditInsNameKeyPress(TObject *Sender, char &Key);
+	void __fastcall PageControlModeChange(TObject *Sender);
+	void __fastcall txtEDLExit(TObject *Sender);
+	void __fastcall btnEchoApplyClick(TObject *Sender);
+	void __fastcall ChkEONClick(TObject *Sender);
+	void __fastcall TrackBarARChange(TObject *Sender);
+	void __fastcall btnEchoSetting0Click(TObject *Sender);
+	void __fastcall btnNoiseSetting0Click(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations
@@ -466,6 +582,7 @@ public:		// User declarations
 	bool __fastcall TFormMain::ExportAll(AnsiString dir);
 
 	void __fastcall TFormMain::UpdateAll(void);
+	void __fastcall TFormMain::ResetEchoNoiseProfile(void);
 	AnsiString __fastcall TFormMain::ImportXM(AnsiString filename,bool song);
 	void __fastcall TFormMain::CompileAllSongs(void);
 	int __fastcall TFormMain::InsCalculateBRRSize(int ins,bool loop_only);
@@ -479,6 +596,9 @@ public:		// User declarations
 
 	void __fastcall TFormMain::MInstrumentItemClick(TObject *Sender);
 
+	void __fastcall TFormMain::RefreshEchoTab(void);
+	void __fastcall TFormMain::RefreshTxtEONByte(void);
+
 	int WaveOutSampleRate;
 	int WaveOutBufferSize;
 	int WaveOutBufferCount;
@@ -487,6 +607,7 @@ public:		// User declarations
 
 	HMIDIIN MidiHandle;
 	unsigned char MidiKeyState[128];
+
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFormMain *FormMain;
