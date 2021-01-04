@@ -3128,7 +3128,7 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 
 			// instrument individual echo (before playing note)
 			if (echo_instrument_change){
-				SPCChnMem[adr++] = 150;
+				SPCChnMem[adr++] = 149;
 				SPCChnMem[adr++] = echo_rows[row];
 			}
 
@@ -3179,7 +3179,7 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 
 				current_note_code = n->note - 2 + 150;
 				offsetted_note_code = current_note_code + insList[ins_last - 1].offset;
-				if (offsetted_note_code < 149) { offsetted_note_code = 149; }
+				if (offsetted_note_code < 151) { offsetted_note_code = 151; }
 				if (offsetted_note_code > 244) { offsetted_note_code = 244; }
 				SPCChnMem[adr++] = offsetted_note_code;
 
