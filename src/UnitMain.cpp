@@ -62,8 +62,10 @@ instrumentStruct insList[MAX_INSTRUMENTS];
 
 echoNoiseProfileStruct echoNoiseProfile;	// echo profile for the entire project
 //unsigned char echo_tracker	= 0x00;			// used on compile to keep track of what EON byte to send whole to the SPC700
-unsigned char echo_force	= 0x00;			// used to allow the 'E' echo effect to override instruments' echo settings 
+//unsigned char echo_force	= 0x00;			// used to allow the 'E' echo effect to override instruments' echo settings 
 unsigned char echo_rows[MAX_ROWS];
+unsigned char noise_rows[MAX_ROWS];
+
 
 bool dontTriggerCheckboxClick = false;
 
@@ -2932,8 +2934,10 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 	offsetted_note_code = 0;
 
 	unsigned char echo_temp = 0x00;
+	unsigned char noise_temp = 0x00;
 	unsigned char shiftbit = 0x00;
 	bool echo_instrument_change = false;
+	bool noise_instrument_change = false;
 
 	const int channel_or_mask[8] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80};
 	const int channel_and_mask[8] = {0xFE, 0xFD, 0xFB, 0xF7, 0xEF, 0xDF, 0xBF, 0x7F};
@@ -3047,6 +3051,36 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 		}
 
 
+		///////////////////////////////////////////////
+		// yeah I copypasted my code for the noise flags
+		if (row == 0){
+			if (chn == 0){
+				noise_rows[row] = echoNoiseProfile.NON;
+			}
+		} else {
+			// copy only the relevant bit from the previous row
+			shiftbit = 0x01 << chn;
+			noise_rows[row] &= ~shiftbit;
+			noise_rows[row] |= noise_rows[row - 1] & shiftbit;
+		}
+		// 0: normal instrument    1: noise instrument
+		if (insList[ins_last - 1].noise_setting == 1 ){
+			noise_rows[row] |= channel_or_mask[chn];
+
+		} else{
+			noise_rows[row] &= channel_and_mask[chn];
+		}
+		// we are finishing up all rows
+		if (chn == 7){
+			noise_temp = (row == 0) ? echoNoiseProfile.NON : noise_rows[row - 1];
+			if (noise_rows[row] != noise_temp){
+				//actually send the instruction later after the call to DelayCompile
+				noise_instrument_change = true;
+				change = true;
+			}
+		}
+
+
 
 
 		
@@ -3127,9 +3161,17 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 			}
 
 			// instrument individual echo (before playing note)
+			// will change EON
 			if (echo_instrument_change){
 				SPCChnMem[adr++] = 149;
 				SPCChnMem[adr++] = echo_rows[row];
+			}
+
+			// instrument is noise
+			// will change NON
+			if (noise_instrument_change){
+				SPCChnMem[adr++] = 150;
+				SPCChnMem[adr++] = noise_rows[row];
 			}
 
 			new_note_keyoff=(key_is_on&&insert_gap&&!porta_active)?true:false;
@@ -3376,11 +3418,12 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 
 	SongCleanUp(&s);//cleanup instrument numbers and volume effect
 
-	//initialize echo stuff
+	//initialize echo/noise stuff
 	for (i = 0; i < MAX_ROWS; i++){
 		echo_rows[i] = 0x00;
+		noise_rows[i] = 0x00;
 	}
-	echo_force = 0x00;
+	//echo_force = 0x00;
 
 	//expand repeating sections
 	for(chn=0;chn<8;++chn)
@@ -8045,7 +8088,7 @@ void __fastcall TFormMain::PageControlModeChange(TObject *Sender)
 }
 
 void __fastcall TFormMain::ResetEchoNoiseProfile(void){
-	echoNoiseProfile.FLG = 0x60;
+	echoNoiseProfile.FLG = 0x00;
 	echoNoiseProfile.NON = 0x00;
 	echoNoiseProfile.ESA = 0xF6;
 	echoNoiseProfile.EDL = 0x00;
@@ -8115,7 +8158,7 @@ void __fastcall TFormMain::RefreshEchoTab(void)
 	RefreshTxtEONByte();
 
 	txtFLG->Text = echo_int_to_hextext(echoNoiseProfile.FLG);
-	cmbFrequency->ItemIndex = echoNoiseProfile.FLG - 0x60;
+	cmbFrequency->ItemIndex = echoNoiseProfile.FLG;// - 0x60;
 
 	txtNON->Text = echo_int_to_hextext(echoNoiseProfile.NON);
 	chkNON0->Checked = (echoNoiseProfile.NON & 1) > 0;

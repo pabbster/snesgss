@@ -114,10 +114,6 @@ object FormMain: TFormMain
     OnChange = PageControlModeChange
     object TabSheetSong: TTabSheet
       Caption = 'Song [F1]'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PaintBoxSong: TPaintBox
         Left = 0
         Top = 0
@@ -1771,7 +1767,7 @@ object FormMain: TFormMain
           Width = 254
           Height = 27
           Style = csDropDownList
-          ItemHeight = 19
+          ItemHeight = 0
           ItemIndex = 0
           TabOrder = 2
           Text = '0 Hz'
