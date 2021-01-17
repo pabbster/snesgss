@@ -831,7 +831,7 @@ object FormMain: TFormMain
       object GroupBoxOffset: TGroupBox
         Left = 8
         Top = 318
-        Width = 434
+        Width = 315
         Height = 72
         Caption = 'Offset (in semitones)'
         TabOrder = 9
@@ -847,7 +847,7 @@ object FormMain: TFormMain
         object TrackBarOffset: TTrackBar
           Left = 90
           Top = 25
-          Width = 333
+          Width = 215
           Height = 26
           Hint = 'in semitones'
           Max = 11
@@ -859,7 +859,7 @@ object FormMain: TFormMain
         end
       end
       object GroupBoxEchoSetting: TGroupBox
-        Left = 448
+        Left = 329
         Top = 318
         Width = 203
         Height = 72
@@ -903,6 +903,34 @@ object FormMain: TFormMain
           ParentShowHint = False
           ShowHint = True
           OnClick = btnEchoSetting0Click
+        end
+      end
+      object GroupBoxNoise: TGroupBox
+        Left = 538
+        Top = 318
+        Width = 113
+        Height = 72
+        Caption = 'Noise instrument?'
+        TabOrder = 11
+        object btnNoiseSetting0: TSpeedButton
+          Left = 3
+          Top = 28
+          Width = 50
+          Height = 22
+          GroupIndex = 101
+          Down = True
+          Caption = 'Normal'
+          OnClick = btnNoiseSetting0Click
+        end
+        object btnNoiseSetting1: TSpeedButton
+          Tag = 1
+          Left = 58
+          Top = 28
+          Width = 50
+          Height = 22
+          GroupIndex = 101
+          Caption = 'Noise'
+          OnClick = btnNoiseSetting0Click
         end
       end
     end

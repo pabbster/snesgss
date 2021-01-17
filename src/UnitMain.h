@@ -108,7 +108,7 @@ struct undoStruct {
 
 struct echoNoiseProfileStruct{
 	unsigned char FLG;
-	unsigned char NON;
+	//unsigned char NON;
 	unsigned char ESA;		// Echo buffer start address
 	unsigned char EDL;		// Echo buffer length (times 0x100)
 	unsigned char EFB;		// Echo Feedback
@@ -126,7 +126,7 @@ struct echoNoiseProfileStruct{
 
 	echoNoiseProfileStruct():
 		FLG(0x00),
-		NON(0x00),
+		//NON(0x00),
 		ESA(0xF6),
 		EDL(0x00),
 		EFB(0x00),
@@ -325,7 +325,6 @@ class TFormMain : public TForm
 	TGroupBox *groupEON;
 	TLabel *lblEON1;
 	TLabel *lblEON2;
-	TEdit *txtEONByte;
 	TCheckBox *chkEON0;
 	TCheckBox *chkEON1;
 	TCheckBox *chkEON5;
@@ -336,21 +335,6 @@ class TFormMain : public TForm
 	TCheckBox *chkEON6;
 	TEdit *txtEONByte2;
 	TLabel *Label9;
-	TGroupBox *GroupBox1;
-	TLabel *Label11;
-	TLabel *Label12;
-	TCheckBox *chkNON0;
-	TCheckBox *chkNON1;
-	TCheckBox *chkNON5;
-	TCheckBox *chkNON4;
-	TCheckBox *chkNON3;
-	TCheckBox *chkNON7;
-	TCheckBox *chkNON2;
-	TCheckBox *chkNON6;
-	TEdit *txtNON;
-	TEdit *txtFLG;
-	TLabel *Label13;
-	TComboBox *cmbFrequency;
 	TGroupBox *GroupBoxOffset;
 	TLabel *lblOffset;
 	TTrackBar *TrackBarOffset;

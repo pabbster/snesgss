@@ -64,7 +64,8 @@ struct instrumentStruct {
 	AnsiString name;
 
 	int offset; //offset in number of semitones (some instruments from game rips aren't in tune with each other)
-	
+	int echo_setting; // 0: no setting    1: echoed instrument    2: echo-less instrument
+	int noise_setting; // 0: normal instrument		1: noise instrument
 };
 
 struct noteFieldStruct {
@@ -350,8 +351,16 @@ class TFormMain : public TForm
 	TEdit *txtFLG;
 	TLabel *Label13;
 	TComboBox *cmbFrequency;
-	TTrackBar *TrackBarOffset;
+	TGroupBox *GroupBoxOffset;
 	TLabel *lblOffset;
+	TTrackBar *TrackBarOffset;
+	TGroupBox *GroupBoxEchoSetting;
+	TSpeedButton *btnEchoSetting0;
+	TSpeedButton *btnEchoSetting1;
+	TSpeedButton *btnEchoSetting2;
+	TGroupBox *GroupBoxNoise;
+	TSpeedButton *btnNoiseSetting0;
+	TSpeedButton *btnNoiseSetting1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall MExitClick(TObject *Sender);
@@ -360,7 +369,7 @@ class TFormMain : public TForm
 	void __fastcall MSaveClick(TObject *Sender);
 	void __fastcall SpeedButtonImportWavClick(TObject *Sender);
 	void __fastcall PaintBoxADSRPaint(TObject *Sender);
-	void __fastcall TrackBarARChange(TObject *Sender);
+	void __fastcall TrackBarOffsetChange(TObject *Sender);
 	void __fastcall TrackBarDRChange(TObject *Sender);
 	void __fastcall TrackBarSLChange(TObject *Sender);
 	void __fastcall TrackBarSRChange(TObject *Sender);
@@ -454,6 +463,9 @@ class TFormMain : public TForm
 	void __fastcall txtEDLExit(TObject *Sender);
 	void __fastcall btnEchoApplyClick(TObject *Sender);
 	void __fastcall ChkEONClick(TObject *Sender);
+	void __fastcall TrackBarARChange(TObject *Sender);
+	void __fastcall btnEchoSetting0Click(TObject *Sender);
+	void __fastcall btnNoiseSetting0Click(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

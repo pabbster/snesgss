@@ -67,6 +67,10 @@ unsigned char echo_rows[MAX_ROWS];
 unsigned char noise_rows[MAX_ROWS];
 unsigned char FLG_tracker = 0;
 
+bool one_note = false;
+bool one_note_noise = false;
+bool one_note_echo = false;
+
 
 bool dontTriggerCheckboxClick = false;
 
@@ -3219,10 +3223,10 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 				}
 
 
+				current_note_code = n->note - 2 + 150;
 
-				if (noise_rows[row] && channel_or_mask[chn] == 0){
+				if ((noise_rows[row] & channel_or_mask[chn]) == 0){
 					// we are playing a regular note, not noise
-					current_note_code = n->note - 2 + 150;
 					offsetted_note_code = current_note_code + insList[ins_last - 1].offset;
 					if (offsetted_note_code < 151) { offsetted_note_code = 151; }
 					if (offsetted_note_code > 244) { offsetted_note_code = 244; }
@@ -3231,16 +3235,14 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 					// we are playing noise.
 					// we will use codes 173 to 203 (notes C3 to F#)
 					// to play with the noise clock frequency instead of regular notes
-					current_note_code = n->note - 2 + 150;
 					noise_note_code = current_note_code;
-					if (noise_note_code < 173){
-						noise_note_code = 173;
-					} else if (noise_note_code > 203){
-						noise_note_code = 203; 
+					if (noise_note_code < 173){ noise_note_code = 173; }
+					if (noise_note_code > 203){ noise_note_code = 203; }
+					if (noise_note_code != FLG_tracker){
+						SPCChnMem[adr++] = 151; // code to modify FLG
+						SPCChnMem[adr++] = noise_note_code - 172; // from 1 to 31
+						FLG_tracker = noise_note_code;
 					}
-
-					SPCChnMem[adr++] = 151; // code to modify FLG
-					SPCChnMem[adr++] = noise_note_code - 172; // from 1 to 31
 					SPCChnMem[adr++] = current_note_code; // also hit a note for all of that to take effect
 				}
 
@@ -3529,18 +3531,23 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 
 	channels_all=0;
 
+	// Here I destroy Shiru's carefully measured efficiency
+	// by just sending a "---" note instead of skipping muted/empty channels
+	// so my tacked on stuff always applies to the intended channel
+	// So in my version everything is always an 8-channel song
+	// ... sorry lol
 	for(chn=0;chn<8;++chn)
 	{
 		if(SongIsChannelEmpty(&s,chn)||(ChannelMute[chn]&&mute))
 		{
-			active[chn]=false;
+			s.row[0].chn[chn].note = 1;
+			//active[chn]=false;
 		}
-		else
-		{
+		//else
+		//{
 			active[chn]=true;
-
 			++channels_all;
-		}
+		//}
 	}
 
 	//set default instrument number
@@ -3632,6 +3639,13 @@ bool __fastcall TFormMain::SPCCompile(songStruct *s,int start_row,bool mute,bool
 	const int header_size=2;
 	int ptr,code_adr,sample_adr,adsr_adr,music_adr,effects_adr;
 
+	int use_NON = echoNoiseProfile.NON;
+	int use_EON = echoNoiseProfile.EON;
+	if (one_note){
+		use_NON = (one_note_noise) ? 0x01 : 0x00 ;
+		use_EON = (one_note_echo) ? 0x01 : 0x00 ;
+	}
+
 	SPCMusicSize=0;
 	SPCEffectsSize=0;
 
@@ -3641,7 +3655,7 @@ bool __fastcall TFormMain::SPCCompile(songStruct *s,int start_row,bool mute,bool
 		temp_spc700_data[i] = spc700_data[i];
 	}
 	temp_spc700_data[spc700_addr_FLG] = echoNoiseProfile.FLG;
-	temp_spc700_data[spc700_addr_NON] = echoNoiseProfile.NON;
+	temp_spc700_data[spc700_addr_NON] = use_NON;
 	temp_spc700_data[spc700_addr_ESA] = echoNoiseProfile.ESA;
 	temp_spc700_data[spc700_addr_EDL] = echoNoiseProfile.EDL;
 	temp_spc700_data[spc700_addr_EFB] = echoNoiseProfile.EFB;
@@ -3653,7 +3667,7 @@ bool __fastcall TFormMain::SPCCompile(songStruct *s,int start_row,bool mute,bool
 	temp_spc700_data[spc700_addr_C5] = echoNoiseProfile.FIR_C5;
 	temp_spc700_data[spc700_addr_C6] = echoNoiseProfile.FIR_C6;
 	temp_spc700_data[spc700_addr_C7] = echoNoiseProfile.FIR_C7;
-	temp_spc700_data[spc700_addr_EON] = echoNoiseProfile.EON;
+	temp_spc700_data[spc700_addr_EON] = use_EON;
 	temp_spc700_data[spc700_addr_EVOLL] = echoNoiseProfile.EVOLL;
 	temp_spc700_data[spc700_addr_EVOLR] = echoNoiseProfile.EVOLR;
 
@@ -3887,7 +3901,15 @@ void __fastcall TFormMain::SPCPlayNote(int note,int ins)
 	n->value=255;
 	n->volume=255;
 
+	one_note = true;
+	one_note_echo = ( insList[ins].echo_setting == 1 ) ;
+	one_note_noise = ( insList[ins].noise_setting == 1) ;
+	
 	SPCPlaySong(&tempSong,0,false,ins);
+	
+	one_note = false;
+	one_note_echo = false;
+	one_note_noise = false;
 }
 
 
@@ -6138,6 +6160,29 @@ void __fastcall TFormMain::FormCreate(TObject *Sender)
 
 	Application->OnMessage=AppMessage;
 
+
+	////////////// Open file with ParamStr(1) was here
+
+
+	UpdateInfo(false);
+
+	tuner_init();
+	waveout_init(Handle,WaveOutSampleRate,WaveOutBufferSize,WaveOutBufferCount);
+
+	MidiHandle=NULL;
+
+	midi_all=midiInGetNumDevs();
+
+	if(midi_all>0&&midi_id<midi_all)
+	{
+		if(midiInOpen(&MidiHandle,midi_id,(DWORD)Handle,NULL,CALLBACK_WINDOW)==MMSYSERR_NOERROR)
+		{
+			memset(MidiKeyState,0,sizeof(MidiKeyState));
+
+			midiInStart(MidiHandle);
+		}
+	}
+
 	if(ParamStr(1)!="")
 	{
 		ModuleOpen(ParamStr(1));
@@ -6162,25 +6207,6 @@ void __fastcall TFormMain::FormCreate(TObject *Sender)
 			for(i=0;i<MAX_INSTRUMENTS;++i) if(insList[i].source) free(insList[i].source);
 
 			exit(0);
-		}
-	}
-
-	UpdateInfo(false);
-
-	tuner_init();
-	waveout_init(Handle,WaveOutSampleRate,WaveOutBufferSize,WaveOutBufferCount);
-
-	MidiHandle=NULL;
-
-	midi_all=midiInGetNumDevs();
-
-	if(midi_all>0&&midi_id<midi_all)
-	{
-		if(midiInOpen(&MidiHandle,midi_id,(DWORD)Handle,NULL,CALLBACK_WINDOW)==MMSYSERR_NOERROR)
-		{
-			memset(MidiKeyState,0,sizeof(MidiKeyState));
-
-			midiInStart(MidiHandle);
 		}
 	}
 }

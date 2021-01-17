@@ -135,10 +135,6 @@ object FormMain: TFormMain
       Caption = 'Song list [F2]'
       ImageIndex = 3
       OnEnter = TabSheetSongListEnter
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object SpeedButtonSongUp: TSpeedButton
         Left = 359
         Top = 24
@@ -223,10 +219,6 @@ object FormMain: TFormMain
     object TabSheetInstruments: TTabSheet
       Caption = 'Instruments [F3]'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object SpeedButtonImportWav: TSpeedButton
         Left = 514
         Top = 258
@@ -938,10 +930,6 @@ object FormMain: TFormMain
       Caption = 'Info [F4]'
       ImageIndex = 2
       OnShow = TabSheetInfoShow
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBoxMemoryUse: TGroupBox
         Left = 3
         Top = 3
@@ -1030,10 +1018,6 @@ object FormMain: TFormMain
       Font.Style = []
       ImageIndex = 4
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Label16: TLabel
         Left = 18
         Top = 3
@@ -1062,7 +1046,7 @@ object FormMain: TFormMain
         Font.Name = 'Comic Sans MS'
         Font.Style = []
         ParentFont = False
-        TabOrder = 5
+        TabOrder = 4
         OnClick = btnEchoApplyClick
       end
       object groupFIR: TGroupBox
@@ -1372,15 +1356,15 @@ object FormMain: TFormMain
       object groupEON: TGroupBox
         Left = 384
         Top = 40
-        Width = 289
+        Width = 273
         Height = 122
         TabOrder = 3
         object lblEON1: TLabel
           Left = 12
           Top = 21
-          Width = 152
+          Width = 93
           Height = 19
-          Caption = 'Initial channel echoes'
+          Caption = 'Initial echoes'
         end
         object lblEON2: TLabel
           Left = 12
@@ -1388,24 +1372,6 @@ object FormMain: TFormMain
           Width = 79
           Height = 19
           Caption = '(EON Byte)'
-        end
-        object txtEONByte: TEdit
-          Left = 97
-          Top = 52
-          Width = 105
-          Height = 28
-          TabStop = False
-          Color = cl3DLight
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowFrame
-          Font.Height = -21
-          Font.Name = 'Courier'
-          Font.Style = []
-          MaxLength = 8
-          ParentFont = False
-          TabOrder = 0
-          Text = '00000000'
         end
         object chkEON0: TCheckBox
           Tag = 1
@@ -1421,7 +1387,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 2
+          TabOrder = 1
           OnClick = ChkEONClick
         end
         object chkEON1: TCheckBox
@@ -1438,7 +1404,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 3
+          TabOrder = 2
           OnClick = ChkEONClick
         end
         object chkEON5: TCheckBox
@@ -1455,7 +1421,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 7
+          TabOrder = 6
           OnClick = ChkEONClick
         end
         object chkEON4: TCheckBox
@@ -1472,7 +1438,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 6
+          TabOrder = 5
           OnClick = ChkEONClick
         end
         object chkEON3: TCheckBox
@@ -1489,7 +1455,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 5
+          TabOrder = 4
           OnClick = ChkEONClick
         end
         object chkEON7: TCheckBox
@@ -1506,7 +1472,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 9
+          TabOrder = 8
           OnClick = ChkEONClick
         end
         object chkEON2: TCheckBox
@@ -1523,7 +1489,7 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 4
+          TabOrder = 3
           OnClick = ChkEONClick
         end
         object chkEON6: TCheckBox
@@ -1540,211 +1506,11 @@ object FormMain: TFormMain
           Font.Name = 'FixedSys'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 8
-          OnClick = ChkEONClick
-        end
-        object txtEONByte2: TEdit
-          Left = 208
-          Top = 52
-          Width = 32
-          Height = 28
-          TabStop = False
-          Color = cl3DLight
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowFrame
-          Font.Height = -21
-          Font.Name = 'Courier'
-          Font.Style = []
-          MaxLength = 2
-          ParentFont = False
-          TabOrder = 1
-          Text = '00'
-        end
-      end
-      object GroupBox1: TGroupBox
-        Left = 384
-        Top = 176
-        Width = 289
-        Height = 161
-        TabOrder = 4
-        object Label11: TLabel
-          Left = 12
-          Top = 21
-          Width = 202
-          Height = 19
-          Caption = 'Noise frequency / channel(s)'
-        end
-        object Label12: TLabel
-          Left = 12
-          Top = 55
-          Width = 74
-          Height = 19
-          Caption = '(FLG Byte)'
-        end
-        object Label13: TLabel
-          Left = 145
-          Top = 55
-          Width = 81
-          Height = 19
-          Caption = '(NON Byte)'
-        end
-        object chkNON0: TCheckBox
-          Tag = 1
-          Left = 12
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '1'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 3
-          OnClick = ChkEONClick
-        end
-        object chkNON1: TCheckBox
-          Tag = 2
-          Left = 44
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '2'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 4
-          OnClick = ChkEONClick
-        end
-        object chkNON5: TCheckBox
-          Tag = 32
-          Left = 172
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '6'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 8
-          OnClick = ChkEONClick
-        end
-        object chkNON4: TCheckBox
-          Tag = 16
-          Left = 140
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '5'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
           TabOrder = 7
           OnClick = ChkEONClick
         end
-        object chkNON3: TCheckBox
-          Tag = 8
-          Left = 108
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '4'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 6
-          OnClick = ChkEONClick
-        end
-        object chkNON7: TCheckBox
-          Tag = 128
-          Left = 236
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '8'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 10
-          OnClick = ChkEONClick
-        end
-        object chkNON2: TCheckBox
-          Tag = 4
-          Left = 76
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '3'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 5
-          OnClick = ChkEONClick
-        end
-        object chkNON6: TCheckBox
-          Tag = 64
-          Left = 204
-          Top = 136
-          Width = 26
-          Height = 17
-          Alignment = taLeftJustify
-          Caption = '7'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'FixedSys'
-          Font.Style = [fsBold]
-          ParentFont = False
-          TabOrder = 9
-          OnClick = ChkEONClick
-        end
-        object txtNON: TEdit
-          Left = 232
-          Top = 52
-          Width = 32
-          Height = 28
-          TabStop = False
-          Color = cl3DLight
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowFrame
-          Font.Height = -21
-          Font.Name = 'Courier'
-          Font.Style = []
-          MaxLength = 2
-          ParentFont = False
-          TabOrder = 1
-          Text = '00'
-        end
-        object txtFLG: TEdit
-          Left = 92
+        object txtEONByte2: TEdit
+          Left = 97
           Top = 52
           Width = 32
           Height = 28
@@ -1759,51 +1525,7 @@ object FormMain: TFormMain
           MaxLength = 2
           ParentFont = False
           TabOrder = 0
-          Text = '60'
-        end
-        object cmbFrequency: TComboBox
-          Left = 12
-          Top = 100
-          Width = 254
-          Height = 27
-          Style = csDropDownList
-          ItemHeight = 0
-          ItemIndex = 0
-          TabOrder = 2
-          Text = '0 Hz'
-          Items.Strings = (
-            '0 Hz'
-            '16 Hz'
-            '21 Hz'
-            '25 Hz'
-            '31 Hz'
-            '42 Hz'
-            '50 Hz'
-            '63 Hz'
-            '83 Hz'
-            '100 Hz'
-            '125 Hz'
-            '167 Hz'
-            '200 Hz'
-            '250 Hz'
-            '333 Hz'
-            '400 Hz'
-            '500 Hz'
-            '667 Hz'
-            '800 Hz'
-            '1.0 KHz'
-            '1.3 KHz'
-            '1.6 KHz'
-            '2.0 KHz'
-            '2.7 KHz'
-            '3.2 KHz'
-            '4.0 KHz'
-            '5.3 KHz'
-            '6.4 KHz'
-            '8.0 KHz'
-            '10.7 KHz'
-            '16 KHz'
-            '32 KHz')
+          Text = '00'
         end
       end
     end
