@@ -8108,7 +8108,7 @@ int echo_hextext_to_int(AnsiString the_string)
 	return hextext_total;
 }
 
-AnsiString echo_int_to_hextext(int the_int){
+AnsiString echo_int_to_hextext(int the_int, bool just_one = false){
 	char char_high = '0';
 	int int_high = 0;
 	char char_low = '0';
@@ -8124,7 +8124,7 @@ AnsiString echo_int_to_hextext(int the_int){
 	if (int_low >= 0x00 && int_low <= 0x09) char_low = int_low + '0';
 	if (int_low >= 0x0a && int_low <= 0x0f) char_low = int_low + 'A' - 10;
 
-	hextext_return += char_high;
+	if (!just_one){ hextext_return += char_high; }
 	hextext_return += char_low;
 
 	return hextext_return;
@@ -8174,7 +8174,7 @@ void __fastcall TFormMain::RefreshTxtEONByte(void){
 
 void __fastcall TFormMain::RefreshEchoTab(void)
 {
-	txtEDL->Text = echo_int_to_hextext(echoNoiseProfile.EDL);
+	txtEDL->Text = echo_int_to_hextext(echoNoiseProfile.EDL, true);
 	txtESA->Text = echo_int_to_hextext(echoNoiseProfile.ESA);
 	txtEVOLL->Text = echo_int_to_hextext(echoNoiseProfile.EVOLL);
 	txtEVOLR->Text = echo_int_to_hextext(echoNoiseProfile.EVOLR);

@@ -1215,11 +1215,11 @@ object FormMain: TFormMain
           ParentFont = False
         end
         object lblDelay: TLabel
-          Left = 83
-          Top = 22
-          Width = 39
+          Left = 25
+          Top = 21
+          Width = 97
           Height = 19
-          Caption = 'Delay'
+          Caption = 'Delay (0 to F)'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -16
@@ -1237,10 +1237,10 @@ object FormMain: TFormMain
           Font.Height = -21
           Font.Name = 'Courier'
           Font.Style = []
-          MaxLength = 2
+          MaxLength = 1
           ParentFont = False
           TabOrder = 0
-          Text = '00'
+          Text = '0'
           OnExit = txtEDLExit
         end
         object txtESA: TEdit
