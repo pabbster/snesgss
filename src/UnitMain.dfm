@@ -135,6 +135,10 @@ object FormMain: TFormMain
       Caption = 'Song list [F2]'
       ImageIndex = 3
       OnEnter = TabSheetSongListEnter
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object SpeedButtonSongUp: TSpeedButton
         Left = 359
         Top = 24
@@ -219,6 +223,10 @@ object FormMain: TFormMain
     object TabSheetInstruments: TTabSheet
       Caption = 'Instruments [F3]'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object SpeedButtonImportWav: TSpeedButton
         Left = 514
         Top = 258
@@ -930,6 +938,10 @@ object FormMain: TFormMain
       Caption = 'Info [F4]'
       ImageIndex = 2
       OnShow = TabSheetInfoShow
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBoxMemoryUse: TGroupBox
         Left = 3
         Top = 3
@@ -1018,6 +1030,10 @@ object FormMain: TFormMain
       Font.Style = []
       ImageIndex = 4
       ParentFont = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label16: TLabel
         Left = 18
         Top = 3

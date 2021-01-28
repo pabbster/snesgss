@@ -3544,6 +3544,7 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 		if(SongIsChannelEmpty(&s,chn)||(ChannelMute[chn]&&mute))
 		{
 			s.row[0].chn[chn].note = 1;
+			s.row[0].chn[chn].instrument = 100; // defaults to an echo-less instrument normal users can't mess with
 			//active[chn]=false;
 		}
 		//else
