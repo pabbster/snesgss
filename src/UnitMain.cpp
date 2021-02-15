@@ -3484,6 +3484,7 @@ int __fastcall TFormMain::SongCompile(songStruct *s_original,int start_row,int s
 
 				n->note=m->note;
 				n->instrument=m->instrument;
+				n->volume=m->volume;
 
 				if(m->effect!='R') n->effect=m->effect; else n->effect=0;
 
