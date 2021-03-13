@@ -208,8 +208,8 @@
       <FILELIST>
         <FILE FILENAME="snesgss.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="snesgss" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="snesgss.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="snesgss.res" FORMNAME="" DESIGNCLASS=""/>
-        <FILE FILENAME="UnitMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="UnitMain.h"/>
         <FILE FILENAME="UnitTranspose.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitTranspose" FORMNAME="FormTranspose" DESIGNCLASS="" ADDITIONAL="UnitTranspose.h"/>
+        <FILE FILENAME="UnitMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="UnitMain.h"/>
         <FILE FILENAME="UnitReplace.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitReplace" FORMNAME="FormReplace" DESIGNCLASS="" ADDITIONAL="UnitReplace.h"/>
         <FILE FILENAME="UnitSectionName.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitSectionName" FORMNAME="FormName" DESIGNCLASS="" ADDITIONAL="UnitSectionName.h"/>
         <FILE FILENAME="UnitSectionList.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="UnitSectionList" FORMNAME="FormSectionList" DESIGNCLASS="" ADDITIONAL="UnitSectionList.h"/>

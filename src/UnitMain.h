@@ -345,6 +345,9 @@ class TFormMain : public TForm
 	TGroupBox *GroupBoxNoise;
 	TSpeedButton *btnNoiseSetting0;
 	TSpeedButton *btnNoiseSetting1;
+	TEdit *txtMeasure;
+	TLabel *lblMeasure;
+	TUpDown *UpDown1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall MExitClick(TObject *Sender);
@@ -450,6 +453,7 @@ class TFormMain : public TForm
 	void __fastcall TrackBarARChange(TObject *Sender);
 	void __fastcall btnEchoSetting0Click(TObject *Sender);
 	void __fastcall btnNoiseSetting0Click(TObject *Sender);
+	void __fastcall txtMeasureChange(TObject *Sender);
 
 private:	// User declarations
 public:		// User declarations

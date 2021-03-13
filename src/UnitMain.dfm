@@ -135,10 +135,6 @@ object FormMain: TFormMain
       Caption = 'Song list [F2]'
       ImageIndex = 3
       OnEnter = TabSheetSongListEnter
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object SpeedButtonSongUp: TSpeedButton
         Left = 359
         Top = 24
@@ -175,6 +171,13 @@ object FormMain: TFormMain
         Height = 16
         Caption = 'Marking a song as sound effect includes its data into the driver'
       end
+      object lblMeasure: TLabel
+        Left = 359
+        Top = 189
+        Width = 54
+        Height = 16
+        Caption = 'Measure:'
+      end
       object GroupBoxSongList: TGroupBox
         Left = 9
         Top = 3
@@ -183,7 +186,7 @@ object FormMain: TFormMain
         Caption = 'Song list'
         TabOrder = 0
         object EditSongName: TEdit
-          Left = 9
+          Left = 7
           Top = 21
           Width = 312
           Height = 24
@@ -194,7 +197,7 @@ object FormMain: TFormMain
           OnKeyPress = EditSongNameKeyPress
         end
         object ListBoxSong: TListBox
-          Left = 9
+          Left = 7
           Top = 51
           Width = 312
           Height = 470
@@ -219,14 +222,27 @@ object FormMain: TFormMain
         TabOrder = 1
         OnClick = CheckBoxEffectClick
       end
+      object txtMeasure: TEdit
+        Left = 413
+        Top = 186
+        Width = 28
+        Height = 24
+        MaxLength = 2
+        TabOrder = 2
+        Text = '0'
+        OnChange = txtMeasureChange
+      end
+      object UpDown1: TUpDown
+        Left = 648
+        Top = 336
+        Width = 17
+        Height = 25
+        TabOrder = 3
+      end
     end
     object TabSheetInstruments: TTabSheet
       Caption = 'Instruments [F3]'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object SpeedButtonImportWav: TSpeedButton
         Left = 514
         Top = 258
@@ -938,10 +954,6 @@ object FormMain: TFormMain
       Caption = 'Info [F4]'
       ImageIndex = 2
       OnShow = TabSheetInfoShow
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object GroupBoxMemoryUse: TGroupBox
         Left = 3
         Top = 3
@@ -1030,10 +1042,6 @@ object FormMain: TFormMain
       Font.Style = []
       ImageIndex = 4
       ParentFont = False
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Label16: TLabel
         Left = 18
         Top = 3

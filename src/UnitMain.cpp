@@ -2092,39 +2092,42 @@ bool __fastcall TFormMain::ModuleSave(AnsiString filename)
 		fprintf(file,"Song%iEffect=%i\n\n" ,song,songList[song].effect?1:0);
 	}
 
-	for(song=0;song<MAX_SONGS;++song)
+//	for(song=0;song<MAX_SONGS;++song)
+	for( song = 0; song < 99; song++ )
 	{
 		fprintf(file,"[Song%i]\n",song);
 
 		for(row=0;row<MAX_ROWS;++row)
 		{
-			if(SongIsRowEmpty(&songList[song],row,true)) continue;
+			//if(SongIsRowEmpty(&songList[song],row,true)) continue;
+			if(!SongIsRowEmpty(&songList[song],row,true)){
 
-			fprintf(file,"%4.4i%c",row,songList[song].row[row].marker?'*':' ');
+				fprintf(file,"%4.4i%c",row,songList[song].row[row].marker?'*':' ');
 
-			if(songList[song].row[row].speed) fprintf(file,"%2.2i",songList[song].row[row].speed); else fprintf(file,"..");
+				if(songList[song].row[row].speed) fprintf(file,"%2.2i",songList[song].row[row].speed); else fprintf(file,"..");
 
-			for(chn=0;chn<8;++chn)
-			{
-				n=&songList[song].row[row].chn[chn];
-
-				switch(n->note)
+				for(chn=0;chn<8;++chn)
 				{
-				case 0: fprintf(file,"..."); break;
-				case 1: fprintf(file,"---"); break;
-				default: fprintf(file,"%s%i",NoteNames[(n->note-2)%12].c_str(),(n->note-2)/12);
+					n=&songList[song].row[row].chn[chn];
+
+					switch(n->note)
+					{
+						case 0: fprintf(file,"..."); break;
+						case 1: fprintf(file,"---"); break;
+						default: fprintf(file,"%s%i",NoteNames[(n->note-2)%12].c_str(),(n->note-2)/12);
+					}
+
+					if(n->instrument) fprintf(file,"%2.2i",n->instrument); else fprintf(file,"..");
+
+					if(n->volume==255) fprintf(file,".."); else fprintf(file,"%2.2i",n->volume);
+
+					fprintf(file,"%c",n->effect?n->effect:'.');
+
+					if(n->value==255) fprintf(file,".."); else fprintf(file,"%2.2i",n->value);
 				}
 
-				if(n->instrument) fprintf(file,"%2.2i",n->instrument); else fprintf(file,"..");
-
-				if(n->volume==255) fprintf(file,".."); else fprintf(file,"%2.2i",n->volume);
-
-				fprintf(file,"%c",n->effect?n->effect:'.');
-
-				if(n->value==255) fprintf(file,".."); else fprintf(file,"%2.2i",n->value);
+				fprintf(file,"%s\n",songList[song].row[row].name.c_str());
 			}
-
-			fprintf(file,"%s\n",songList[song].row[row].name.c_str());
 		}
 
 		fprintf(file,"\n");
@@ -2301,6 +2304,8 @@ void __fastcall TFormMain::SongUpdateControls(void)
 	EditSongName->Text=songList[SongCur].name;
 
 	CheckBoxEffect->Checked=songList[SongCur].effect;
+
+	txtMeasure->Text = songList[SongCur].measure;
 }
 
 
@@ -3173,6 +3178,7 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 			if (echo_instrument_change){
 				SPCChnMem[adr++] = 149;
 				SPCChnMem[adr++] = echo_rows[row];
+				echo_instrument_change = false;
 			}
 
 			// new instrument is noise or old instrument was noise
@@ -3180,6 +3186,7 @@ int __fastcall TFormMain::ChannelCompile(songStruct *s,int chn,int start_row,int
 			if (noise_instrument_change){
 				SPCChnMem[adr++] = 150;
 				SPCChnMem[adr++] = noise_rows[row];
+				noise_instrument_change = false;
 			}
 
 			new_note_keyoff=(key_is_on&&insert_gap&&!porta_active)?true:false;
@@ -4122,7 +4129,8 @@ void __fastcall TFormMain::RenderPattern(void)
 		{
 			if(s->row[row].marker) rowhl=0;
 
-			if(!(rowhl%s->measure)) bgCol=TColor(0xe8e8e8); else bgCol=clWhite;
+			//if(!(rowhl%s->measure)) bgCol=TColor(0xe8e8e8); else bgCol=clWhite;
+			if(!(rowhl%s->measure)) bgCol=TColor(0xcccccc); else bgCol=clWhite;
 
 			if(row==RowCur) bgCol=TColor(0xffc0c0);
 
@@ -6939,6 +6947,11 @@ void __fastcall TFormMain::CheckBoxEffectClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFormMain::txtMeasureChange(TObject *Sender)
+{
+	songList[SongCur].measure = txtMeasure->Text.ToIntDef(4);
+}
+
 void __fastcall TFormMain::SpeedButtonSongUpClick(TObject *Sender)
 {
 	static songStruct temp;
@@ -8311,5 +8324,8 @@ void __fastcall TFormMain::btnNoiseSetting0Click(TObject *Sender)
 	insList[InsCur].noise_setting =((TSpeedButton*)Sender)->Tag;
 	InsUpdateControls();
 }
+//---------------------------------------------------------------------------
+
+
 //---------------------------------------------------------------------------
 

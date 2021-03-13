@@ -13,7 +13,8 @@ define UPDATE_RATE_HZ	160		//quantization of music events
 //        $nnnn adsr data list
 //        $nnnn sound effects data
 //        $nnnn music data
-//		  $nnnn BRR streamer buffer
+// $nnnn..$F600 echo buffer (hopefully)
+// $F6E3..$FFFF BRR streamer buffer (last 2332 bytes)
 
 
 
@@ -164,7 +165,7 @@ define streamPitch		(4096*{streamSampleRate}/32000)
 	org 0
 	base $0200-2
 
-	dw end-start			//size of the driver code
+	dw 2598			//size of the driver code
 
 start:
 	clp
@@ -174,11 +175,11 @@ start:
 	bra editorInit
 
 sampleADSRPtr:
-	dw sampleADSRAddr		//$0208
+	dw $0208 //sampleADSRAddr		//$0208
 soundEffectsDataPtr:
-	dw 0					//$020a
+	dw $020a //0					//$020a
 musicDataPtr:
-	dw musicDataAddr		//$020c
+	dw $020c //smusicDataAddr		//$020c
 
 
 
@@ -1102,16 +1103,27 @@ updateChannel:
 .readLoopStart:
 
 	jsr updateChannelVolume
-	
+
+
 .readLoop:
 
 	jsr readChannelByteZ		//read a new byte, set Y to zero, X to D_CH0x
 
 	cmp #149
-	bcc .setShortDelay
+	bcc .setShortDelay	// less than 149
+	beq .setEffectEcho	// actually 149
+
+	cmp #150
+	beq .setEffectNON
+
+	cmp #151
+	beq .setEffectFLG
+
 	cmp #245
 	beq .keyOff
 	bcc .newNote
+
+	
 
 	cmp #246
 	beq .setLongDelay
@@ -1128,10 +1140,25 @@ updateChannel:
 	cmp #252
 	beq .setEffectModulation
 	cmp #253
-	beq .setReference
+	beq .setReferenceOutOfBoundsHack
 	cmp #254
 	bne .jumpLoop
 	jmp .setInstrument
+
+.setEffectEcho:			//149 Echo on-off byte
+	lda #{DSP_EON}
+	jmp .finishEchoNONFLG
+
+.setEffectNON:			//150  Noise on-off byte
+	lda #{DSP_NON}
+	jmp .finishEchoNONFLG
+
+.setEffectFLG:			//151 Used for noise frequency
+	lda #{DSP_FLG}
+	jmp .finishEchoNONFLG
+
+.setReferenceOutOfBoundsHack:
+	jmp .setReference
 
 .jumpLoop:	//255
 
@@ -1199,8 +1226,7 @@ updateChannel:
 
 	jsr updateChannelVolume	//apply volume and pan
 
-	bra .readLoop
-
+	jmp .readLoop
 
 
 .setEffectPan:
@@ -1211,7 +1237,7 @@ updateChannel:
 
 	jsr updateChannelVolume	//apply volume and pan
 
-	bra .readLoop
+	jmp .readLoop
 
 
 
@@ -1255,7 +1281,6 @@ updateChannel:
 	jmp .readLoop
 
 
-
 .setReference:
 
 	jsr readChannelByte		//read reference LSB
@@ -1278,16 +1303,11 @@ updateChannel:
 
 	jmp .readLoop
 
-
-
-.setInstrument:
-
-	jsr readChannelByte
-	jsr setInstrument
-
+.finishEchoNONFLG:
+	sta {ADDR}
+	jsr readChannelByte 	//read prepared byte from the c++ program
+	sta {DATA}
 	jmp .readLoop
-
-
 
 .storePtr:
 
@@ -1299,6 +1319,18 @@ updateChannel:
 	sta {M_PTR_H},x
 
 	rts
+
+
+.setInstrument:
+
+	jsr readChannelByte
+	jsr setInstrument
+
+	jmp .readLoop
+
+
+
+
 
 
 
@@ -1764,6 +1796,7 @@ bufRegWrite:
 
 
 
+
 //set keyon for specified channel in the temp variable
 //in: {D_CH0x}=channel
 
@@ -1945,31 +1978,36 @@ streamBufferPtr:
 
 
 
+// $29 - $3D then $29 again just to find the addresses of those bytes in the assembled file
+// I fiddle with them later in the c++ part as seen near the start of spc700.h and in many places in UnitMain.cpp
 DSPInitData:
-	db {DSP_FLG}  ,%01100000				//mute, disable echo
+	db {DSP_FLG}  ,%01100000				//mute, disable echo (prevents a weird click at the start probably)
 	db {DSP_MVOLL},0						//global volume to zero
 	db {DSP_MVOLR},0
 	db {DSP_PMON} ,0						//no pitch modulation
-	db {DSP_NON}  ,0						//no noise
-	db {DSP_ESA}  ,1						//echo buffer in the stack page
-	db {DSP_EDL}  ,0						//minimal echo buffer length
-	db {DSP_EFB}  ,0						//no echo feedback
-	db {DSP_C0}	  ,127						//zero echo filter
-	db {DSP_C1}	  ,0
-	db {DSP_C2}	  ,0
-	db {DSP_C3}	  ,0
-	db {DSP_C4}	  ,0
-	db {DSP_C5}	  ,0
-	db {DSP_C6}	  ,0
-	db {DSP_C7}	  ,0
-	db {DSP_EON}  ,0						//echo disabled
-	db {DSP_EVOLL},0						//echo volume to zero
-	db {DSP_EVOLR},0
+	db {DSP_NON}  ,$29						//no noise
+	db {DSP_ESA}  ,$30
+	db {DSP_EDL}  ,$31
+	db {DSP_EFB}  ,$32
+	db {DSP_C0}	  ,$33						//zero echo filter
+	db {DSP_C1}	  ,$34
+	db {DSP_C2}	  ,$35
+	db {DSP_C3}	  ,$36
+	db {DSP_C4}	  ,$37
+	db {DSP_C5}	  ,$38
+	db {DSP_C6}	  ,$39
+	db {DSP_C7}	  ,$3A
+	db {DSP_EON}  ,$3B						//echo disabled
+	db {DSP_EVOLL},$3C
+	db {DSP_EVOLR},$3D
 	db {DSP_KOF}  ,255						//all keys off
 	db {DSP_DIR}  ,sampleDirAddr/256		//sample dir location
-	db {DSP_FLG}  ,%00100000				//no mute, disable echo
+	db {DSP_FLG}  ,$29						//no mute, disable echo
 	db 0
 
+	
+
+	
 
 
 BRRStreamInitData:

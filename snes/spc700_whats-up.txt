@@ -1,0 +1,104 @@
+Hi! You found your way here. That means there's something deep in SNES GSS' SPC700 driver code you'd like to mess with. Here's what I can tell you about that...
+
+==========
+
+So, the short version is:
+
+- You edit whatever you need to in [spc700.asm]
+
+- You assemble it with the earlier Bass version I put in this folder
+bass -o mywonderfulfile.whatever spc700.asm
+
+- You right-click on the created file, go to Properties, and take note of the exact file size
+(to the byte. Right now it's 2598)
+
+- You find some way to convert that file to a c++ array-friendly bunch of hex values
+(I use Tomeko's tool http://tomeko.net/online_tools/file_to_hex.php?lang=en)
+
+- In the main program's source, you go to [spc700.h] and:
+-- Replace the current bunch of hex values in the array with your bunch of hex values
+-- Adjust the size of that array to that number of bytes you saved earlier
+-- Also adjust the const on line 0001
+	const unsigned int spc700_size=2598;
+-- Now for the fun part. Your changes probably moved around the address of some bytes I'm keeping track of in this bunch of consts:
+	const int spc700_addr_NON = 0x8D0;
+	const int spc700_addr_ESA = 0x8D2;
+	const int spc700_addr_EDL = 0x8D4;
+	const int spc700_addr_EFB = 0x8D6;
+	const int spc700_addr_C0 = 0x8D8;
+	const int spc700_addr_C1 = 0x8DA;
+	const int spc700_addr_C2 = 0x8DC;
+	const int spc700_addr_C3 = 0x8DE;
+	const int spc700_addr_C4 = 0x8E0;
+	const int spc700_addr_C5 = 0x8E2;
+	const int spc700_addr_C6 = 0x8E4;
+	const int spc700_addr_C7 = 0x8E6;
+	const int spc700_addr_EON = 0x8E8;
+	const int spc700_addr_EVOLL = 0x8EA;
+	const int spc700_addr_EVOLR = 0x8EC;
+	const int spc700_addr_FLG = 0x8F2;
+So what you gotta do is open up your assembled file with a hex editor and look for some dummy values I used to find the bytes easily. Look for values:
+0x29 skip 0x30 skip 0x31 skip 0x32 skip 0x33 skip 0x34 skip 0x35 skip 0x36 skip 0x37 skip 0x38 skip 0x39 skip 0x3A skip 0x3B skip 0x3C skip 0x3D skip skip skip skip skip 0x29
+So basically search for the address of the first 0x29, then +2 a bunch of times, and last the second 0x29.
+You can see it in the code in [spc700.asm] starting at line 1981
+
+***
+
+With that, you should be all set as far as Shiru's original setup plus my hacky contributions are concerned.
+Just get into that legal copy of Borland Developer Studio 2006 you legally own and hit play to hear your updated driver in action!
+
+==========
+
+Ok, that was the short version. From here on I'll just bloviate on stuff that might be of some help to people who don't really know what they are doing, like myself. If you are competent like most of romhacking.net seems to be you probably don't need any of this.
+
+----------------
+SPC700 Assembly
+----------------
+From what I understand, it is not 100% the same as regular SNES 65816 assembly, but if you keep to the basic stuff you should be fine.
+The three pages I spent the most time on were
+	https://wiki.superfamicom.org/spc700-reference 
+		the most complete amalgamation of info about the SPC700 a surface-level clearnet search can get you
+	https://wiki.superfamicom.org/learning-65816-assembly
+	https://wiki.superfamicom.org/65816-reference
+I've included offline versions because wiki.superfamicom.org goes down for a few hours a few times per month, or you might happen to be in the woods somewhere with no internet
+Hey I just stubmled on Ersanio's guide https://ersanio.gitbook.io/assembly-for-the-snes/ wish I saw that first lol
+
+"I've written stuff to one of the DSP registers and it didn't do crap!"
+	You'd think that's how it works, but actually you have to write the address you want to reach to ADDR and your value to DATA, and as soon as both are filled they uh... magically get sent. Yeah, I'm standing *hard* on the shoulders of giants here lol
+	Anyway here's an example of how you'd write a byte to, say, the DSP's FLG register (used for MUTE,ECHO,RESET,NOISE CLOCK), using Shiru's existing labels and pointers:
+	
+	---
+	// you somehow know that you're writing to FLG, probably from a readChannelByte
+	
+	//so the value at DSP_FLG is whatever, but the address of DSP_FLG that you grab with #, is always 0x6C
+	lda #{DSP_FLG}
+	
+	//store that address as a value in ADDR
+	sta {ADDR}
+	
+	// get your value, again probably from doing a readChannelByte or something
+	
+	//plop it down as a value in DATA
+	sta {DATA}
+	
+	// do whatever to get back to what you were doing, probably a 'jmp' or an 'rts' or something
+	---
+	
+	If that didn't make sense just hit ctfl+f and search for "{ADDR}" for real examples in [spc700.asm]
+
+
+-----------------
+Bass (assembler)
+-----------------
+The most recent version of Bass doesn't support the "align" instruction from Shiru's code, so I had to find an earlier one that does. v06 was the only one I could find from some dank abandoned github clone project. It's probably not the exact one Shiru used, as a few bytes came out slightly different when I tried it, but it works. The two pages in the provided doc are good to explain Bass-specific stuff but they assume you know the basics of assembly (so it will tell you how to format labels and sublabels, or how to express a value as hex/dec/bits, but it won't explain 'ora' to you. There is a listing of all the opcodes, though.)
+
+If it gives you a "branch out of bounds" error on compile, then congratulations, you just stumbled on the limitation on physical distance between bytes in asm code. Replace the offending 'bra' with a more costly 'jmp', or cry if it's a 'beq' or a 'bne' and you kinda needed it. Look upon my setReferenceOutOfBoundsHack label in [spc700.asm] and despair
+
+
+-------------------------
+Why keep track of bytes?
+-------------------------
+So the reason why I keep track of a bunch of bytes ties into how I hacked in the missing echo/reverb.
+There's this section in the driver that usually initializes all the DSP registers to 0 or whatever default value, see.
+So, every time some spc data gets compiled, I let the c++ part of the program edit those bytes depending on what the user chose in the project Noise/Echo tab.
+That means the "driver" portion of the spc files is always hardcoded a little different, instead of doing it through a clean instruction. I know this is pretty bad I might change it later, especially if we want different values for each song in a project. Hell, if you play an EarthBound song with SNES SPC700 Player, you can see for yourself that the mad lads at APE liked to switch FIR coefficients *during* a song (°o°:) That's the dream, anyway

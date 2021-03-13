@@ -1,0 +1,3393 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script src="./65816 Reference _ Super Famicom Development Wiki_files/analytics.js.download" type="text/javascript"></script>
+<script type="text/javascript">window.addEventListener('DOMContentLoaded',function(){var v=archive_analytics.values;v.service='wb';v.server_name='wwwb-app56.us.archive.org';v.server_ms=1818;archive_analytics.send_pageview({});});</script><script type="text/javascript" src="./65816 Reference _ Super Famicom Development Wiki_files/playback.bundle.js.download" charset="utf-8"></script>
+<script type="text/javascript" src="./65816 Reference _ Super Famicom Development Wiki_files/wombat.js.download" charset="utf-8"></script>
+<script type="text/javascript">
+  __wm.init("https://web.archive.org/web");
+  __wm.wombat("https://wiki.superfamicom.org/65816-reference","20200712170444","https://web.archive.org/web/","web","/_static/",
+	      "1594573484","wiki.superfamicom.org");
+</script>
+<link rel="stylesheet" type="text/css" href="./65816 Reference _ Super Famicom Development Wiki_files/banner-styles.css">
+<link rel="stylesheet" type="text/css" href="./65816 Reference _ Super Famicom Development Wiki_files/iconochive.css">
+<!-- End Wayback Rewrite JS Include -->
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>65816 Reference | Super Famicom Development Wiki</title>
+
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary">
+
+
+<meta name="description" content="65816 Reference - Internal Registers, Addressing Modes, Instructions, Datasheets, Manuals etc.">
+<meta property="og:description" content="65816 Reference - Internal Registers, Addressing Modes, Instructions, Datasheets, Manuals etc.">
+<meta property="twitter:description" content="65816 Reference - Internal Registers, Addressing Modes, Instructions, Datasheets, Manuals etc.">
+
+
+
+<meta property="og:title" content="65816 Reference">
+<meta property="twitter:title" content="65816 Reference">
+
+
+
+<meta property="og:site_name" content="Super Famicom Development Wiki">
+
+
+
+<meta property="og:locale" content="en_US">
+
+
+
+
+
+<meta name="twitter:site" content="@superfamicom">
+
+
+
+<meta name="twitter:creator" content="@superfamicom">
+
+
+
+<meta property="article:publisher" content="http://localhost:8000">
+
+
+
+<meta property="og:url" content="https://web.archive.org/web/20200712170444/http://localhost:8000//65816-reference">
+<link rel="canonical" href="https://web.archive.org/web/20200712170444/http://localhost:8000//65816-reference">
+
+
+
+
+
+
+<meta property="article:modified_time" content="2020-01-04T04:54:51.828Z">
+<meta property="og:updated_time" content="2020-01-04T04:54:51.828Z">
+
+
+<link rel="stylesheet" href="./65816 Reference _ Super Famicom Development Wiki_files/style.css" media="all">
+<link rel="apple-touch-icon" href="https://web.archive.org/web/20200712170444im_/https://wiki.superfamicom.org/apple-touch-icon.png">
+
+<script>
+window.basePath = '';
+</script>
+</head>
+<body><!-- BEGIN WAYBACK TOOLBAR INSERT -->
+<style type="text/css">
+body {
+  margin-top:0 !important;
+  padding-top:0 !important;
+  /*min-width:800px !important;*/
+}
+</style>
+<script>__wm.rw(0);</script>
+<div id="wm-ipp-base" lang="en" style="display: block; direction: ltr;">
+</div><div id="donato" style="position:relative;width:100%;">
+  <div id="donato-base">
+    <iframe id="donato-if" src="./65816 Reference _ Super Famicom Development Wiki_files/donate.html" scrolling="no" frameborder="0" style="width:100%; height:100%">
+    </iframe>
+  </div>
+</div><script type="text/javascript">
+__wm.bt(625,27,25,2,"web","https://wiki.superfamicom.org/65816-reference","20200712170444",1996,"/_static/",["/_static/css/banner-styles.css?v=_99BHQfY","/_static/css/iconochive.css?v=qtvMKcIJ"]);
+  __wm.rw(1);
+</script>
+<!-- END WAYBACK TOOLBAR INSERT -->
+<header class="navbar" role="banner">
+  <div class="background">
+    <div class="container">
+      <div class="navbar-header">
+        <h2 class="navbar-brand">
+          <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/" title="Super Famicom Development Wiki">SFC Development Wiki</a>
+        </h2>
+        <form role="search" method="get" name="search" class="navbar-form" action="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/search">
+          <input type="text" aria-label="Search" value="" name="s" class="form-control search-query" placeholder="🔍 Search Super Famicom Development Wiki">
+        </form>
+        <div class="navbar-button">
+          <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/tags" class="button tags" title="Browse Document Tags">Browse Tags</a>
+        </div>
+        <div class="navbar-button">
+          <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/new" class="button new-document" title="Create New Document">New Document</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- View Object
+{
+    document = [document] Current document,
+    title = [string] Current title,
+    relatedDocuments = [array] Collection of related documents,
+    recentDocuments = [array] Collection of recent documents,
+    popularDocuments = [array] Collection of popular documents,
+    config = [config] Global config
+}
+-->
+<div class="before-main-wrapper">
+  <div class="header-wrapper">
+    <div class="container">
+      <div class="header-titles">
+        <h1>65816 Reference</h1>
+        <a class="button" href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference/edit" title="Edit">✏️ Edit</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container main-section detail">
+  <div class="content">
+    <div class="row">
+      <main class="col-sm-12" role="main">
+        <article>
+          <div class="toc"><ul>
+<li class="toc-li-0 toc-2"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-1">Internal Registers</a></li>
+<li class="toc-li-1 toc-2"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-2">Addressing Modes</a></li>
+<li class="toc-li-2 toc-2"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-3">Instructions</a></li>
+<li class="toc-li-3 toc-2"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-4">Datasheets, Manuals etc.</a></li>
+<li class="toc-li-4 toc-3"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-5">Flags stored in P Register</a></li>
+<li class="toc-li-5 toc-3"><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference#toc-6">Instruction Usage</a></li></ul></div>
+          <h2 id="toc-1">Internal Registers</h2>
+<table>
+<thead>
+<tr>
+<th>Mnemonic</th>
+<th>Friendly Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Accumulator</td>
+<td>The accumulator. This is the math register. It stores one of two operands or the result of most arithmetic and logical operations.</td>
+</tr>
+<tr>
+<td>X, Y</td>
+<td>Index</td>
+<td>The index registers. These can be used to reference memory, to pass data to memory, or as counters for loops.</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Stack Pointer</td>
+<td>The stack pointer, points to the next available(unused) location on the stack.</td>
+</tr>
+<tr>
+<td>DBR / DB</td>
+<td>Data Bank</td>
+<td>Data bank register, holds the default bank for memory transfers.</td>
+</tr>
+<tr>
+<td>D / DP</td>
+<td>Direct Page</td>
+<td>Direct page register, used for direct page addressing modes. Holds the memory bank address of the data the CPU is accessing.</td>
+</tr>
+<tr>
+<td>PB / PBR</td>
+<td>Program Bank</td>
+<td>Program Bank, holds the bank address of all instruction fetches.</td>
+</tr>
+<tr>
+<td>P</td>
+<td>Processor Status</td>
+<td>Holds various important flags, results of tests and 65816 processing states. See below.</td>
+</tr>
+<tr>
+<td>PC</td>
+<td>Program Counter</td>
+<td>Holds the memory address of the current CPU instruction</td>
+</tr>
+</tbody>
+</table>
+<h3 id="toc-5">Flags stored in P Register</h3>
+<table>
+<thead>
+<tr>
+<th>Mnemonic</th>
+<th>Value</th>
+<th>Binary Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>N</td>
+<td>#$80</td>
+<td>10000000</td>
+<td>Negative</td>
+</tr>
+<tr>
+<td>V</td>
+<td>#$40</td>
+<td>01000000</td>
+<td>Overflow</td>
+</tr>
+<tr>
+<td>M</td>
+<td>#$20</td>
+<td>00100000</td>
+<td>Accumulator register size (native mode only)&lt;br/&gt;(0 = 16-bit, 1 = 8-bit)</td>
+</tr>
+<tr>
+<td>X</td>
+<td>#$10</td>
+<td>00010000</td>
+<td>Index register size (native mode only)&lt;br/&gt;(0 = 16-bit, 1 = 8-bit)</td>
+</tr>
+<tr>
+<td>D</td>
+<td>#$08</td>
+<td>00001000</td>
+<td>Decimal</td>
+</tr>
+<tr>
+<td>I</td>
+<td>#$04</td>
+<td>00000100</td>
+<td>IRQ disable</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>#$02</td>
+<td>00000010</td>
+<td>Zero</td>
+</tr>
+<tr>
+<td>C</td>
+<td>#$01</td>
+<td>00000001</td>
+<td>Carry</td>
+</tr>
+<tr>
+<td>E</td>
+<td></td>
+<td></td>
+<td>6502 emulation mode</td>
+</tr>
+<tr>
+<td>B</td>
+<td>#$10</td>
+<td>00010000</td>
+<td>Break (emulation mode only)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="toc-2">Addressing Modes</h2>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Implied</td>
+<td>PHB</td>
+</tr>
+<tr>
+<td>Immediate[MemoryFlag]</td>
+<td>AND #1 or 2 bytes</td>
+</tr>
+<tr>
+<td>Immediate[IndexFlag]</td>
+<td>LDX #1 or 2 bytes</td>
+</tr>
+<tr>
+<td>Immediate[8-Bit]</td>
+<td>SEP #byte</td>
+</tr>
+<tr>
+<td>Relative</td>
+<td>BEQ byte (signed)</td>
+</tr>
+<tr>
+<td>Relative long</td>
+<td>BRL 2 bytes (signed)</td>
+</tr>
+<tr>
+<td>Direct</td>
+<td>AND byte</td>
+</tr>
+<tr>
+<td>Direct indexed (with X)</td>
+<td>AND byte, x</td>
+</tr>
+<tr>
+<td>Direct indexed (with Y)</td>
+<td>AND byte, y</td>
+</tr>
+<tr>
+<td>Direct indirect</td>
+<td>AND (byte)</td>
+</tr>
+<tr>
+<td>Direct indexed indirect</td>
+<td>AND (byte, x)</td>
+</tr>
+<tr>
+<td>Direct indirect indexed</td>
+<td>AND (byte), y</td>
+</tr>
+<tr>
+<td>Direct indirect long</td>
+<td>AND [byte]</td>
+</tr>
+<tr>
+<td>Direct indirect indexed long</td>
+<td>AND [byte], y</td>
+</tr>
+<tr>
+<td>Absolute</td>
+<td>AND 2bytes</td>
+</tr>
+<tr>
+<td>Absolute indexed (with X)</td>
+<td>AND 2bytes, x</td>
+</tr>
+<tr>
+<td>Absolute indexed (with Y)</td>
+<td>AND 2bytes, y</td>
+</tr>
+<tr>
+<td>Absolute long</td>
+<td>AND 3bytes</td>
+</tr>
+<tr>
+<td>Absolute indexed long</td>
+<td>AND 3bytes, x</td>
+</tr>
+<tr>
+<td>Stack relative</td>
+<td>AND byte, s</td>
+</tr>
+<tr>
+<td>Stack relative indirect indexed</td>
+<td>AND (byte, s), y</td>
+</tr>
+<tr>
+<td>Absolute indirect</td>
+<td>JMP (2bytes)</td>
+</tr>
+<tr>
+<td>Absolute indirect long</td>
+<td>JML [2bytes]</td>
+</tr>
+<tr>
+<td>Absolute indexed indirect</td>
+<td>JMP/JSR (2bytes,x)</td>
+</tr>
+<tr>
+<td>Implied accumulator</td>
+<td>INC</td>
+</tr>
+<tr>
+<td>Block move</td>
+<td>MVN/MVP byte, byte</td>
+</tr>
+</tbody>
+</table>
+<h2 id="toc-3">Instructions</h2>
+<p>Instructions are a breakdown of machine code. For the SNES, they consist of a 1-byte opcode followed by a 0-3 byte operand. Full instructions may be known as words. For example, the instruction <code>ADC $3a</code> occupies 2 bytes in memory, and if assembled, it would be stored as <code>E6 3A</code>.</p>
+<p>Most instructions that are at least 2 bytes long have more than one addressing mode. Addressing modes are put in place so basic instructions may be interpreted correctly given a wide range of operands.</p>
+<table>
+<thead>
+<tr>
+<th>Assembler Example</th>
+<th>Alias</th>
+<th>Proper Name</th>
+<th>HEX</th>
+<th>Addressing Mode</th>
+<th>Flags Set</th>
+<th>Bytes</th>
+<th>Cycles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADC (<em>dp</em>,X)</td>
+<td></td>
+<td>Add With Carry</td>
+<td>61</td>
+<td>DP Indexed Indirect,X</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC <em>sr</em>,S</td>
+<td></td>
+<td>Add With Carry</td>
+<td>63</td>
+<td>Stack Relative</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>ADC <em>dp</em></td>
+<td></td>
+<td>Add With Carry</td>
+<td>65</td>
+<td>Direct Page</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC [<em>dp</em>]</td>
+<td></td>
+<td>Add With Carry</td>
+<td>67</td>
+<td>DP Indirect Long</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC <em>#const</em></td>
+<td></td>
+<td>Add With Carry</td>
+<td>69</td>
+<td>Immediate</td>
+<td>NV----ZC</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>ADC <em>addr</em></td>
+<td></td>
+<td>Add With Carry</td>
+<td>6D</td>
+<td>Absolute</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>ADC <em>long</em></td>
+<td></td>
+<td>Add With Carry</td>
+<td>6F</td>
+<td>Absolute Long</td>
+<td>NV----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>ADC ( <em>dp</em>),Y</td>
+<td></td>
+<td>Add With Carry</td>
+<td>71</td>
+<td>DP Indirect Indexed, Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>ADC (<em>dp</em>)</td>
+<td></td>
+<td>Add With Carry</td>
+<td>72</td>
+<td>DP Indirect</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Add With Carry</td>
+<td>73</td>
+<td>SR Indirect Indexed,Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>ADC <em>dp</em>,X</td>
+<td></td>
+<td>Add With Carry</td>
+<td>75</td>
+<td>DP Indexed,X</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC [<em>dp</em>],Y</td>
+<td></td>
+<td>Add With Carry</td>
+<td>77</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ADC <em>addr</em>,Y</td>
+<td></td>
+<td>Add With Carry</td>
+<td>79</td>
+<td>Absolute Indexed,Y</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>ADC <em>addr</em>,X</td>
+<td></td>
+<td>Add With Carry</td>
+<td>7D</td>
+<td>Absolute Indexed,X</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>ADC  <em>long</em>,X</td>
+<td></td>
+<td>Add With Carry</td>
+<td>7F</td>
+<td>Absolute Long Indexed,X</td>
+<td>NV----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>AND (_dp,_X)</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>21</td>
+<td>DP Indexed Indirect,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>AND <em>sr,S</em></td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>23</td>
+<td>Stack Relative</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>AND <em>dp</em></td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>25</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>AND [<em>dp</em>]</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>27</td>
+<td>DP Indirect Long</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>AND <em>#const</em></td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>29</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>AND <em>addr</em></td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>2D</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>AND <em>long</em></td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>2F</td>
+<td>Absolute Long</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>AND (<em>dp</em>),Y</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>31</td>
+<td>DP Indirect Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>AND (<em>dp</em>)</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>32</td>
+<td>DP Indirect</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>AND (<em>sr</em>,S),Y</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>33</td>
+<td>SR Indirect Indexed,Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>AND <em>dp</em>,X</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>35</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>AND [<em>dp</em>],Y</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>37</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>AND <em>addr</em>,Y</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>39</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>AND <em>addr</em>,X</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>3D</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>AND  <em>long</em>,X</td>
+<td></td>
+<td>AND Accumulator with Memory</td>
+<td>3F</td>
+<td>Absolute Long Indexed,X</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>ASL <em>dp</em></td>
+<td></td>
+<td>Arithmetic Shift Left</td>
+<td>06</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>ASL A</td>
+<td></td>
+<td>Arithmetic Shift Left</td>
+<td>0A</td>
+<td>Accumulator</td>
+<td>N-----ZC</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ASL <em>addr</em></td>
+<td></td>
+<td>Arithmetic Shift Left</td>
+<td>0E</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>ASL <em>dp</em>,X</td>
+<td></td>
+<td>Arithmetic Shift Left</td>
+<td>16</td>
+<td>DP Indexed,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>ASL <em>addr</em>,X</td>
+<td></td>
+<td>Arithmetic Shift Left</td>
+<td>1E</td>
+<td>Absolute Indexed,X</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>BCC <em>nearlabel</em></td>
+<td>BLT</td>
+<td>Branch if Carry Clear</td>
+<td>90</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BCS <em>nearlabel</em></td>
+<td>BGE</td>
+<td>Branch if Carry Set</td>
+<td>B0</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BEQ <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Equal</td>
+<td>F0</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BIT <em>dp</em></td>
+<td></td>
+<td>Test Bits</td>
+<td>24</td>
+<td>Direct Page</td>
+<td>NV----Z-</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>BIT <em>addr</em></td>
+<td></td>
+<td>Test Bits</td>
+<td>2C</td>
+<td>Absolute</td>
+<td>NV----Z-</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>BIT <em>dp</em>,X</td>
+<td></td>
+<td>Test Bits</td>
+<td>34</td>
+<td>DP Indexed,X</td>
+<td>NV----Z-</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>BIT <em>addr</em>,X</td>
+<td></td>
+<td>Test Bits</td>
+<td>3C</td>
+<td>Absolute Indexed,X</td>
+<td>NV----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>BIT <em>#const</em></td>
+<td></td>
+<td>Test Bits</td>
+<td>89</td>
+<td>Immediate</td>
+<td>------Z-</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>BMI <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Minus</td>
+<td>30</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BNE <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Not Equal</td>
+<td>D0</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BPL <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Plus</td>
+<td>10</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BRA <em>nearlabel</em></td>
+<td></td>
+<td>Branch Always</td>
+<td>80</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>3[^6]</td>
+</tr>
+<tr>
+<td>BRK</td>
+<td></td>
+<td>Break</td>
+<td>00</td>
+<td>Stack/Interrupt</td>
+<td>----DI--</td>
+<td>2[^13]</td>
+<td>7[^7]</td>
+</tr>
+<tr>
+<td>BRL <em>label</em></td>
+<td></td>
+<td>Branch Long Always</td>
+<td>82</td>
+<td>Program Counter Relative Long</td>
+<td></td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr>
+<td>BVC <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Overflow Clear</td>
+<td>50</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>BVS <em>nearlabel</em></td>
+<td></td>
+<td>Branch if Overflow Set</td>
+<td>70</td>
+<td>Program Counter Relative</td>
+<td></td>
+<td>2</td>
+<td>2[^5][^6]</td>
+</tr>
+<tr>
+<td>CLC</td>
+<td></td>
+<td>Clear Carry</td>
+<td>18</td>
+<td>Implied</td>
+<td>-------C</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CLD</td>
+<td></td>
+<td>Clear Decimal Mode Flag</td>
+<td>D8</td>
+<td>Implied</td>
+<td>----D---</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CLI</td>
+<td></td>
+<td>Clear Interrupt Disable Flag</td>
+<td>58</td>
+<td>Implied</td>
+<td>-----I--</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CLV</td>
+<td></td>
+<td>Clear Overflow Flag</td>
+<td>B8</td>
+<td>Implied</td>
+<td>-V------</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>CMP (_dp,_X)</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>C1</td>
+<td>DP Indexed Indirect,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP <em>sr</em>,S</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>C3</td>
+<td>Stack Relative</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>CMP <em>dp</em></td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>C5</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP [<em>dp</em>]</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>C7</td>
+<td>DP Indirect Long</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP <em>#const</em></td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>C9</td>
+<td>Immediate</td>
+<td>N-----ZC</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>CMP <em>addr</em></td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>CD</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>CMP <em>long</em></td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>CF</td>
+<td>Absolute Long</td>
+<td>N-----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>CMP (<em>dp</em>),Y</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D1</td>
+<td>DP Indirect Indexed, Y</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>CMP (<em>dp</em>)</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D2</td>
+<td>DP Indirect</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D3</td>
+<td>SR Indirect Indexed,Y</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>CMP <em>dp</em>,X</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D5</td>
+<td>DP Indexed,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP [<em>dp</em>],Y</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D7</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>CMP <em>addr</em>,Y</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>D9</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>CMP <em>addr</em>,X</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>DD</td>
+<td>Absolute Indexed,X</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>CMP  <em>long</em>,X</td>
+<td></td>
+<td>Compare Accumulator with Memory</td>
+<td>DF</td>
+<td>Absolute Long Indexed,X</td>
+<td>N-----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>COP <em>const</em></td>
+<td></td>
+<td>Co-Processor Enable</td>
+<td>02</td>
+<td>Stack/Interrupt</td>
+<td>----DI--</td>
+<td>2[^13]</td>
+<td>7[^7]</td>
+</tr>
+<tr>
+<td>CPX <em>#const</em></td>
+<td></td>
+<td>Compare Index Register X with Memory</td>
+<td>E0</td>
+<td>Immediate</td>
+<td>N-----ZC</td>
+<td>2[^14]</td>
+<td>2[^8]</td>
+</tr>
+<tr>
+<td>CPX <em>dp</em></td>
+<td></td>
+<td>Compare Index Register X with Memory</td>
+<td>E4</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>CPX <em>addr</em></td>
+<td></td>
+<td>Compare Index Register X with Memory</td>
+<td>EC</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>CPY <em>#const</em></td>
+<td></td>
+<td>Compare Index Register Y with Memory</td>
+<td>C0</td>
+<td>Immediate</td>
+<td>N-----ZC</td>
+<td>2[^14]</td>
+<td>2[^8]</td>
+</tr>
+<tr>
+<td>CPY <em>dp</em></td>
+<td></td>
+<td>Compare Index Register Y with Memory</td>
+<td>C4</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>CPY <em>addr</em></td>
+<td></td>
+<td>Compare Index Register Y with Memory</td>
+<td>CC</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>DEC A</td>
+<td>DEA</td>
+<td>Decrement</td>
+<td>3A</td>
+<td>Accumulator</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>DEC <em>dp</em></td>
+<td></td>
+<td>Decrement</td>
+<td>C6</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>DEC <em>addr</em></td>
+<td></td>
+<td>Decrement</td>
+<td>CE</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>DEC <em>dp</em>,X</td>
+<td></td>
+<td>Decrement</td>
+<td>D6</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>DEC <em>addr</em>,X</td>
+<td></td>
+<td>Decrement</td>
+<td>DE</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>DEX</td>
+<td></td>
+<td>Decrement Index Register X</td>
+<td>CA</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>DEY</td>
+<td></td>
+<td>Decrement Index Register Y</td>
+<td>88</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>EOR (_dp,_X)</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>41</td>
+<td>DP Indexed Indirect,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR <em>sr</em>,S</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>43</td>
+<td>Stack Relative</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>EOR <em>dp</em></td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>45</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR [<em>dp</em>]</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>47</td>
+<td>DP Indirect Long</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR <em>#const</em></td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>49</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>EOR <em>addr</em></td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>4D</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>EOR <em>long</em></td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>4F</td>
+<td>Absolute Long</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>EOR (<em>dp</em>),Y</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>51</td>
+<td>DP Indirect Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>EOR (<em>dp</em>)</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>52</td>
+<td>DP Indirect</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>53</td>
+<td>SR Indirect Indexed,Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>EOR <em>dp</em>,X</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>55</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR [<em>dp</em>],Y</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>57</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>EOR <em>addr</em>,Y</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>59</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>EOR <em>addr</em>,X</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>5D</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>EOR  <em>long</em>,X</td>
+<td></td>
+<td>Exclusive-OR Accumulator with Memory</td>
+<td>5F</td>
+<td>Absolute Long Indexed,X</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>INC A</td>
+<td>INA</td>
+<td>Increment</td>
+<td>1A</td>
+<td>Accumulator</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>INC <em>dp</em></td>
+<td></td>
+<td>Increment</td>
+<td>E6</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>INC <em>addr</em></td>
+<td></td>
+<td>Increment</td>
+<td>EE</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>INC <em>dp</em>,X</td>
+<td></td>
+<td>Increment</td>
+<td>F6</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>INC <em>addr</em>,X</td>
+<td></td>
+<td>Increment</td>
+<td>FE</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>INX</td>
+<td></td>
+<td>Increment Index Register X</td>
+<td>E8</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>INY</td>
+<td></td>
+<td>Increment Index Register Y</td>
+<td>C8</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>JMP <em>addr</em></td>
+<td></td>
+<td>Jump</td>
+<td>4C</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>JMP <em>long</em></td>
+<td>JML</td>
+<td>Jump</td>
+<td>5C</td>
+<td>Absolute Long</td>
+<td></td>
+<td>4</td>
+<td>4</td>
+</tr>
+<tr>
+<td>JMP (<em>addr</em>)</td>
+<td></td>
+<td>Jump</td>
+<td>6C</td>
+<td>Absolute Indirect</td>
+<td></td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>JMP (<em>addr,X</em>)</td>
+<td></td>
+<td>Jump</td>
+<td>7C</td>
+<td>Absolute Indexed Indirect</td>
+<td></td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>JMP <em>[addr]</em></td>
+<td>JML</td>
+<td>Jump</td>
+<td>DC</td>
+<td>Absolute Indirect Long</td>
+<td></td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>JSR <em>addr</em></td>
+<td></td>
+<td>Jump to Subroutine</td>
+<td>20</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>JSR <em>long</em></td>
+<td>JSL</td>
+<td>Jump to Subroutine</td>
+<td>22</td>
+<td>Absolute Long</td>
+<td></td>
+<td>4</td>
+<td>8</td>
+</tr>
+<tr>
+<td>JSR <em>(addr,X)</em>)</td>
+<td></td>
+<td>Jump to Subroutine</td>
+<td>FC</td>
+<td>Absolute Indexed Indirect</td>
+<td></td>
+<td>3</td>
+<td>8</td>
+</tr>
+<tr>
+<td>LDA (_dp,_X)</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>A1</td>
+<td>DP Indexed Indirect,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA <em>sr,S</em></td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>A3</td>
+<td>Stack Relative</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>LDA <em>dp</em></td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>A5</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA [<em>dp</em>]</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>A7</td>
+<td>DP Indirect Long</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA <em>#const</em></td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>A9</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>LDA <em>addr</em></td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>AD</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>LDA <em>long</em></td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>AF</td>
+<td>Absolute Long</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>LDA (<em>dp</em>),Y</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B1</td>
+<td>DP Indirect Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>LDA (<em>dp</em>)</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B2</td>
+<td>DP Indirect</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B3</td>
+<td>SR Indirect Indexed,Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>LDA <em>dp</em>,X</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B5</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA [<em>dp</em>],Y</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B7</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>LDA <em>addr</em>,Y</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>B9</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>LDA <em>addr</em>,X</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>BD</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>LDA  <em>long</em>,X</td>
+<td></td>
+<td>Load Accumulator from Memory</td>
+<td>BF</td>
+<td>Absolute Long Indexed,X</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>LDX <em>#const</em></td>
+<td></td>
+<td>Load Index Register X from Memory</td>
+<td>A2</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^14]</td>
+<td>2[^8]</td>
+</tr>
+<tr>
+<td>LDX <em>dp</em></td>
+<td></td>
+<td>Load Index Register X from Memory</td>
+<td>A6</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>LDX <em>addr</em></td>
+<td></td>
+<td>Load Index Register X from Memory</td>
+<td>AE</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>LDX <em>dp</em>,Y</td>
+<td></td>
+<td>Load Index Register X from Memory</td>
+<td>B6</td>
+<td>DP Indexed,Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^2][^8]</td>
+</tr>
+<tr>
+<td>LDX <em>addr</em>,Y</td>
+<td></td>
+<td>Load Index Register X from Memory</td>
+<td>BE</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^3][^8]</td>
+</tr>
+<tr>
+<td>LDY <em>#const</em></td>
+<td></td>
+<td>Load Index Register Y from Memory</td>
+<td>A0</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^14]</td>
+<td>2[^8]</td>
+</tr>
+<tr>
+<td>LDY <em>dp</em></td>
+<td></td>
+<td>Load Index Register Y from Memory</td>
+<td>A4</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>LDY <em>addr</em></td>
+<td></td>
+<td>Load Index Register Y from Memory</td>
+<td>AC</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>LDY <em>dp</em>,X</td>
+<td></td>
+<td>Load Index Register Y from Memory</td>
+<td>B4</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^2][^8]</td>
+</tr>
+<tr>
+<td>LDY <em>addr</em>,X</td>
+<td></td>
+<td>Load Index Register Y from Memory</td>
+<td>BC</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^3][^8]</td>
+</tr>
+<tr>
+<td>LSR <em>dp</em></td>
+<td></td>
+<td>Logical Shift Memory or Accumulator Right</td>
+<td>46</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>LSR A</td>
+<td></td>
+<td>Logical Shift Memory or Accumulator Right</td>
+<td>4A</td>
+<td>Accumulator</td>
+<td>N-----ZC</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>LSR <em>addr</em></td>
+<td></td>
+<td>Logical Shift Memory or Accumulator Right</td>
+<td>4E</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>LSR <em>dp</em>,X</td>
+<td></td>
+<td>Logical Shift Memory or Accumulator Right</td>
+<td>56</td>
+<td>DP Indexed,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>LSR <em>addr</em>,X</td>
+<td></td>
+<td>Logical Shift Memory or Accumulator Right</td>
+<td>5E</td>
+<td>Absolute Indexed,X</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>MVN <em>srcbk,destbk</em></td>
+<td></td>
+<td>Block Move Negative</td>
+<td>54</td>
+<td>Block Move</td>
+<td></td>
+<td>3</td>
+<td>1[^3]</td>
+</tr>
+<tr>
+<td>MVP <em>srcbk,destbk</em></td>
+<td></td>
+<td>Block Move Positive</td>
+<td>44</td>
+<td>Block Move</td>
+<td></td>
+<td>3</td>
+<td>1[^3]</td>
+</tr>
+<tr>
+<td>NOP</td>
+<td></td>
+<td>No Operation</td>
+<td>EA</td>
+<td>Implied</td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ORA (_dp,_X)</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>01</td>
+<td>DP Indexed Indirect,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA <em>sr</em>,S</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>03</td>
+<td>Stack Relative</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>ORA <em>dp</em></td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>05</td>
+<td>Direct Page</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA [<em>dp</em>]</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>07</td>
+<td>DP Indirect Long</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA <em>#const</em></td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>09</td>
+<td>Immediate</td>
+<td>N-----Z-</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>ORA <em>addr</em></td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>0D</td>
+<td>Absolute</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>ORA <em>long</em></td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>0F</td>
+<td>Absolute Long</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>ORA (<em>dp</em>),Y</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>11</td>
+<td>DP Indirect Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>ORA (<em>dp</em>)</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>12</td>
+<td>DP Indirect</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA (<em>sr</em>,S),Y</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>13</td>
+<td>SR Indirect Indexed,Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>ORA <em>dp</em>,X</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>15</td>
+<td>DP Indexed,X</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA [<em>dp</em>],Y</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>17</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>N-----Z-</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>ORA <em>addr</em>,Y</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>19</td>
+<td>Absolute Indexed,Y</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>ORA <em>addr</em>,X</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>1D</td>
+<td>Absolute Indexed,X</td>
+<td>N-----Z-</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>ORA  <em>long</em>,X</td>
+<td></td>
+<td>OR Accumulator with Memory</td>
+<td>1F</td>
+<td>Absolute Long Indexed,X</td>
+<td>N-----Z-</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>PEA <em>addr</em></td>
+<td></td>
+<td>Push Effective Absolute Address</td>
+<td>F4</td>
+<td>Stack (Absolute)</td>
+<td></td>
+<td>3</td>
+<td>5</td>
+</tr>
+<tr>
+<td>PEI <em>(dp)</em></td>
+<td></td>
+<td>Push Effective Indirect Address</td>
+<td>D4</td>
+<td>Stack (DP Indirect)</td>
+<td></td>
+<td>2</td>
+<td>6[^2]</td>
+</tr>
+<tr>
+<td>PER <em>label</em></td>
+<td></td>
+<td>Push Effective PC Relative Indirect Address</td>
+<td>62</td>
+<td>Stack (PC Relative Long)</td>
+<td></td>
+<td>3</td>
+<td>6</td>
+</tr>
+<tr>
+<td>PHA</td>
+<td></td>
+<td>Push Accumulator</td>
+<td>48</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3[^1]</td>
+</tr>
+<tr>
+<td>PHB</td>
+<td></td>
+<td>Push Data Bank Register</td>
+<td>8B</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>PHD</td>
+<td></td>
+<td>Push Direct Page Register</td>
+<td>0B</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>PHK</td>
+<td></td>
+<td>Push Program Bank Register</td>
+<td>4B</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/php">PHP</a></td>
+<td></td>
+<td>Push Processor Status Register</td>
+<td>08</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>PHX</td>
+<td></td>
+<td>Push Index Register X</td>
+<td>DA</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3[^8]</td>
+</tr>
+<tr>
+<td>PHY</td>
+<td></td>
+<td>Push Index Register Y</td>
+<td>5A</td>
+<td>Stack (Push)</td>
+<td></td>
+<td>1</td>
+<td>3[^8]</td>
+</tr>
+<tr>
+<td>PLA</td>
+<td></td>
+<td>Pull Accumulator</td>
+<td>68</td>
+<td>Stack (Pull)</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>PLB</td>
+<td></td>
+<td>Pull Data Bank Register</td>
+<td>AB</td>
+<td>Stack (Pull)</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>PLD</td>
+<td></td>
+<td>Pull Direct Page Register</td>
+<td>2B</td>
+<td>Stack (Pull)</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>5</td>
+</tr>
+<tr>
+<td>PLP</td>
+<td></td>
+<td>Pull Processor Status Register</td>
+<td>28</td>
+<td>Stack (Pull)</td>
+<td>NVMXDIZC</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>PLX</td>
+<td></td>
+<td>Pull Index Register X</td>
+<td>FA</td>
+<td>Stack (Pull)</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>PLY</td>
+<td></td>
+<td>Pull Index Register Y</td>
+<td>7A</td>
+<td>Stack (Pull)</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>REP <em>#const</em></td>
+<td></td>
+<td>Reset Processor Status Bits</td>
+<td>C2</td>
+<td>Immediate</td>
+<td>NVMXDIZC</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>ROL <em>dp</em></td>
+<td></td>
+<td>Rotate Memory or Accumulator Left</td>
+<td>26</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>ROL A</td>
+<td></td>
+<td>Rotate Memory or Accumulator Left</td>
+<td>2A</td>
+<td>Accumulator</td>
+<td>N-----ZC</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ROL <em>addr</em></td>
+<td></td>
+<td>Rotate Memory or Accumulator Left</td>
+<td>2E</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>ROL <em>dp</em>,X</td>
+<td></td>
+<td>Rotate Memory or Accumulator Left</td>
+<td>36</td>
+<td>DP Indexed,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>ROL <em>addr</em>,X</td>
+<td></td>
+<td>Rotate Memory or Accumulator Left</td>
+<td>3E</td>
+<td>Absolute Indexed,X</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>ROR <em>dp</em></td>
+<td></td>
+<td>Rotate Memory or Accumulator Right</td>
+<td>66</td>
+<td>Direct Page</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>ROR A</td>
+<td></td>
+<td>Rotate Memory or Accumulator Right</td>
+<td>6A</td>
+<td>Accumulator</td>
+<td>N-----ZC</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>ROR <em>addr</em></td>
+<td></td>
+<td>Rotate Memory or Accumulator Right</td>
+<td>6E</td>
+<td>Absolute</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>ROR <em>dp</em>,X</td>
+<td></td>
+<td>Rotate Memory or Accumulator Right</td>
+<td>76</td>
+<td>DP Indexed,X</td>
+<td>N-----ZC</td>
+<td>2</td>
+<td>6[^2][^4]</td>
+</tr>
+<tr>
+<td>ROR <em>addr</em>,X</td>
+<td></td>
+<td>Rotate Memory or Accumulator Right</td>
+<td>7E</td>
+<td>Absolute Indexed,X</td>
+<td>N-----ZC</td>
+<td>3</td>
+<td>7[^4]</td>
+</tr>
+<tr>
+<td>RTI</td>
+<td></td>
+<td>Return from Interrupt</td>
+<td>40</td>
+<td>Stack (RTI)</td>
+<td>NVMXDIZC</td>
+<td>1</td>
+<td>6[^7]</td>
+</tr>
+<tr>
+<td>RTL</td>
+<td></td>
+<td>Return from Subroutine Long</td>
+<td>6B</td>
+<td>Stack (RTL)</td>
+<td></td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>RTS</td>
+<td></td>
+<td>Return from Subroutine</td>
+<td>60</td>
+<td>Stack (RTS)</td>
+<td></td>
+<td>1</td>
+<td>6</td>
+</tr>
+<tr>
+<td>SBC (_dp,_X)</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>E1</td>
+<td>DP Indexed Indirect,X</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC <em>sr</em>,S</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>E3</td>
+<td>Stack Relative</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>SBC <em>dp</em></td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>E5</td>
+<td>Direct Page</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC [<em>dp</em>]</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>E7</td>
+<td>DP Indirect Long</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC <em>#const</em></td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>E9</td>
+<td>Immediate</td>
+<td>NV----ZC</td>
+<td>2[^12]</td>
+<td>2[^1]</td>
+</tr>
+<tr>
+<td>SBC <em>addr</em></td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>ED</td>
+<td>Absolute</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>SBC <em>long</em></td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>EF</td>
+<td>Absolute Long</td>
+<td>NV----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>SBC (<em>dp</em>),Y</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F1</td>
+<td>DP Indirect Indexed, Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>5[^1][^2][^3]</td>
+</tr>
+<tr>
+<td>SBC (<em>dp</em>)</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F2</td>
+<td>DP Indirect</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F3</td>
+<td>SR Indirect Indexed,Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>SBC <em>dp</em>,X</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F5</td>
+<td>DP Indexed,X</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC [<em>dp</em>],Y</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F7</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td>NV----ZC</td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>SBC <em>addr</em>,Y</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>F9</td>
+<td>Absolute Indexed,Y</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>SBC <em>addr</em>,X</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>FD</td>
+<td>Absolute Indexed,X</td>
+<td>NV----ZC</td>
+<td>3</td>
+<td>4[^1][^3]</td>
+</tr>
+<tr>
+<td>SBC  <em>long</em>,X</td>
+<td></td>
+<td>Subtract with Borrow from Accumulator</td>
+<td>FF</td>
+<td>Absolute Long Indexed,X</td>
+<td>NV----ZC</td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>SEC</td>
+<td></td>
+<td>Set Carry Flag</td>
+<td>38</td>
+<td>Implied</td>
+<td>-------C</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SED</td>
+<td></td>
+<td>Set Decimal Flag</td>
+<td>F8</td>
+<td>Implied</td>
+<td>----D---</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SEI</td>
+<td></td>
+<td>Set Interrupt Disable Flag</td>
+<td>78</td>
+<td>Implied</td>
+<td>-----I--</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>SEP <em>#const</em></td>
+<td></td>
+<td>Reset Processor Status Bits</td>
+<td>E2</td>
+<td>Immediate</td>
+<td>NVMXDIZC</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>STA (_dp,_X)</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>81</td>
+<td>DP Indexed Indirect,X</td>
+<td></td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>STA <em>sr</em>,S</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>83</td>
+<td>Stack Relative</td>
+<td></td>
+<td>2</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>STA <em>dp</em></td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>85</td>
+<td>Direct Page</td>
+<td></td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>STA [<em>dp</em>]</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>87</td>
+<td>DP Indirect Long</td>
+<td></td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>STA <em>addr</em></td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>8D</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>STA <em>long</em></td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>8F</td>
+<td>Absolute Long</td>
+<td></td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>STA (<em>dp</em>),Y</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>91</td>
+<td>DP Indirect Indexed, Y</td>
+<td></td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>STA (<em>dp</em>)</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>92</td>
+<td>DP Indirect</td>
+<td></td>
+<td>2</td>
+<td>5[^1][^2]</td>
+</tr>
+<tr>
+<td>STA (<em>sr</em>,S),Y</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>93</td>
+<td>SR Indirect Indexed,Y</td>
+<td></td>
+<td>2</td>
+<td>7[^1]</td>
+</tr>
+<tr>
+<td>STA _dp_X</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>95</td>
+<td>DP Indexed,X</td>
+<td></td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>STA [<em>dp</em>],Y</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>97</td>
+<td>DP Indirect Long Indexed, Y</td>
+<td></td>
+<td>2</td>
+<td>6[^1][^2]</td>
+</tr>
+<tr>
+<td>STA <em>addr</em>,Y</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>99</td>
+<td>Absolute Indexed,Y</td>
+<td></td>
+<td>3</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>STA <em>addr</em>,X</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>9D</td>
+<td>Absolute Indexed,X</td>
+<td></td>
+<td>3</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>STA  <em>long</em>,X</td>
+<td></td>
+<td>Store Accumulator to Memory</td>
+<td>9F</td>
+<td>Absolute Long Indexed,X</td>
+<td></td>
+<td>4</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>STP</td>
+<td></td>
+<td>Stop Processor</td>
+<td>DB</td>
+<td>Implied</td>
+<td></td>
+<td>1</td>
+<td>3[^9]</td>
+</tr>
+<tr>
+<td>STX <em>dp</em></td>
+<td></td>
+<td>Store Index Register X to Memory</td>
+<td>86</td>
+<td>Direct Page</td>
+<td></td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>STX <em>addr</em></td>
+<td></td>
+<td>Store Index Register X to Memory</td>
+<td>8E</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>STX <em>dp</em>,Y</td>
+<td></td>
+<td>Store Index Register X to Memory</td>
+<td>96</td>
+<td>DP Indexed,Y</td>
+<td></td>
+<td>2</td>
+<td>4[^2][^8]</td>
+</tr>
+<tr>
+<td>STY <em>dp</em></td>
+<td></td>
+<td>Store Index Register Y to Memory</td>
+<td>84</td>
+<td>Direct Page</td>
+<td></td>
+<td>2</td>
+<td>3[^2][^8]</td>
+</tr>
+<tr>
+<td>STY <em>addr</em></td>
+<td></td>
+<td>Store Index Register Y to Memory</td>
+<td>8C</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>4[^8]</td>
+</tr>
+<tr>
+<td>STY <em>dp</em>,X</td>
+<td></td>
+<td>Store Index Register Y to Memory</td>
+<td>94</td>
+<td>DP Indexed,X</td>
+<td></td>
+<td>2</td>
+<td>4[^2][^8]</td>
+</tr>
+<tr>
+<td>STZ <em>dp</em></td>
+<td></td>
+<td>Store Zero to Memory</td>
+<td>64</td>
+<td>Direct Page</td>
+<td></td>
+<td>2</td>
+<td>3[^1][^2]</td>
+</tr>
+<tr>
+<td>STZ <em>dp</em>,X</td>
+<td></td>
+<td>Store Zero to Memory</td>
+<td>74</td>
+<td>DP Indexed,X</td>
+<td></td>
+<td>2</td>
+<td>4[^1][^2]</td>
+</tr>
+<tr>
+<td>STZ <em>addr</em></td>
+<td></td>
+<td>Store Zero to Memory</td>
+<td>9C</td>
+<td>Absolute</td>
+<td></td>
+<td>3</td>
+<td>4[^1]</td>
+</tr>
+<tr>
+<td>STZ <em>addr</em>,X</td>
+<td></td>
+<td>Store Zero to Memory</td>
+<td>9E</td>
+<td>Absolute Indexed,X</td>
+<td></td>
+<td>3</td>
+<td>5[^1]</td>
+</tr>
+<tr>
+<td>TAX</td>
+<td></td>
+<td>Transfer Accumulator to Index Register X</td>
+<td>AA</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TAY</td>
+<td></td>
+<td>Transfer Accumulator to Index Register Y</td>
+<td>A8</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TCD</td>
+<td></td>
+<td>Transfer 16-bit Accumulator to Direct Page Register</td>
+<td>5B</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TCS</td>
+<td></td>
+<td>Transfer 16-bit Accumulator to Stack Pointer</td>
+<td>1B</td>
+<td>Implied</td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TDC</td>
+<td></td>
+<td>Transfer Direct Page Register to 16-bit Accumulator</td>
+<td>7B</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TRB <em>dp</em></td>
+<td></td>
+<td>Test and Reset Memory Bits Against Accumulator</td>
+<td>14</td>
+<td>Direct Page</td>
+<td>------Z-</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>TRB <em>addr</em></td>
+<td></td>
+<td>Test and Reset Memory Bits Against Accumulator</td>
+<td>1C</td>
+<td>Absolute</td>
+<td>------Z-</td>
+<td>3</td>
+<td>6[^3]</td>
+</tr>
+<tr>
+<td>TSB <em>dp</em></td>
+<td></td>
+<td>Test and Set Memory Bits Against Accumulator</td>
+<td>04</td>
+<td>Direct Page</td>
+<td>------Z-</td>
+<td>2</td>
+<td>5[^2][^4]</td>
+</tr>
+<tr>
+<td>TSB <em>addr</em></td>
+<td></td>
+<td>Test and Set Memory Bits Against Accumulator</td>
+<td>0C</td>
+<td>Absolute</td>
+<td>------Z-</td>
+<td>3</td>
+<td>6[^4]</td>
+</tr>
+<tr>
+<td>TSC</td>
+<td></td>
+<td>Transfer Stack Pointer to 16-bit Accumulator</td>
+<td>3B</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TSX</td>
+<td></td>
+<td>Transfer Stack Pointer to Index Register X</td>
+<td>BA</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TXA</td>
+<td></td>
+<td>Transfer Index Register X to Accumulator</td>
+<td>8A</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TXS</td>
+<td></td>
+<td>Transfer Index Register X to Stack Pointer</td>
+<td>9A</td>
+<td>Implied</td>
+<td></td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TXY</td>
+<td></td>
+<td>Transfer Index Register X to Index Register Y</td>
+<td>9B</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TYA</td>
+<td></td>
+<td>Transfer Index Register Y to Accumulator</td>
+<td>98</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>TYX</td>
+<td></td>
+<td>Transfer Index Register Y to Index Register X</td>
+<td>BB</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>WAI</td>
+<td></td>
+<td>Wait for Interrupt</td>
+<td>CB</td>
+<td>Implied</td>
+<td></td>
+<td>1</td>
+<td>3[^10]</td>
+</tr>
+<tr>
+<td>WDM</td>
+<td></td>
+<td><em>Reserved for Future Expansion</em></td>
+<td>42</td>
+<td></td>
+<td></td>
+<td>2</td>
+<td>0[^11]</td>
+</tr>
+<tr>
+<td><a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/xba">XBA</a></td>
+<td></td>
+<td>Exchange B and A 8-bit Accumulators</td>
+<td>EB</td>
+<td>Implied</td>
+<td>N-----Z-</td>
+<td>1</td>
+<td>3</td>
+</tr>
+<tr>
+<td>XCE</td>
+<td></td>
+<td>Exchange Carry and Emulation Flags</td>
+<td>FB</td>
+<td>Implied</td>
+<td>--MX---CE</td>
+<td>1</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>[^1]: Add 1 cycle if m=0 (16-bit memory/accumulator)</p>
+<p>[^2]: Add 1 cycle if low byte of Direct Page Register is non-zero</p>
+<p>[^3]: Add 1 cycle if adding index crosses a page boundary or x=0 (16-bit index registers)</p>
+<p>[^4]: Add 2 cycles if m=0 (16-bit memory/accumulator)</p>
+<p>[^5]: Add 1 cycle if branch is taken</p>
+<p>[^6]: Add 1 cycle if branch taken crosses page boundary in emulation mode (e=1)</p>
+<p>[^7]: Add 1 cycle for 65816 native mode (e=0)</p>
+<p>[^8]: Add 1 cycle if x=0 (16-bit index registers)</p>
+<p>[^9]: Uses 3 cycles to shut the processor down: additional cycles are required by reset to restart it</p>
+<p>[^10]: Uses 3 cycles to shut the processor down: additional cycles are required by interrupt to restart it</p>
+<p>[^11]: Byte and cycle counts subject to change in future processors which expand WDM into 2-byte opcode portions of instructions of varying lengths</p>
+<p>[^12]: Add 1 byte if m=0 (16-bit memory/accumulator)</p>
+<p>[^13]: Opcode is 1 byte, but program counter value pushed onto stack is incremented by 2 allowing for optional signature byte</p>
+<p>[^14]: Add 1 byte if x=0 (16-bit index registers)</p>
+<h3 id="toc-6">Instruction Usage</h3>
+<h4>ADC - Add with carry</h4>
+<p>Adds operand to the Accumulator; adds an additional 1 if carry is set.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0010</span>    <span class="hljs-keyword">adc</span> #<span class="hljs-number">$50</span>    <span class="hljs-comment">; adds $50 to accumulator or 51 if carry is set</span>
+A: <span class="hljs-number">0060</span>            <span class="hljs-comment">; result</span>
+</code></pre>
+<h4>AND - Perform AND to Accumulator</h4>
+<p>The operand is "AND"ed to the Accumulator. eg.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0010</span>    <span class="hljs-keyword">and</span> #<span class="hljs-number">$80</span>    <span class="hljs-comment">; "AND"s $80 to accumulator</span>
+A: <span class="hljs-number">0000</span>
+</code></pre>
+<h4>ASL - Left shifts Accumulator, Memory</h4>
+<p>Shifts Memory or Accumulator left one bit. eg.</p>
+<pre><code class="hljs">A: 0010    asl A    ; Shift left by 1: 0x10 &lt;&lt; 1
+A: 0020
+</code></pre>
+<h4>BCC - Branch if carry clear</h4>
+<p>Jump to a new location within the -128 to 127 range if the carry flag is clear. Useful for comparing two numbers, branching if the second number less than the first. eg.</p>
+<pre><code class="hljs armasm">P: --mxdi--        <span class="hljs-keyword">bcc</span> next    <span class="hljs-comment">; since the carry flag is clear, it'll jump to next</span>
+                   lda #<span class="hljs-number">$00</span>    <span class="hljs-comment">; this will not be executed</span>
+<span class="hljs-symbol">          next:</span>    lda #<span class="hljs-number">$40</span>
+</code></pre>
+<h4>BCS - Branch if carry set</h4>
+<p>Like BCC, but only when carry is set. Good for branching "if greater than or equal to" in a comparison.</p>
+<h4>BEQ - Branch if equal</h4>
+<p>Branches is zero flag is set. This is useful for comparing numbers. eg.</p>
+<pre><code class="hljs ruby"> cpx <span class="hljs-comment">#$50    ; if X is = $50, the zero flag is set</span>
+ beq <span class="hljs-keyword">next</span>    ; branches to <span class="hljs-keyword">next</span> <span class="hljs-keyword">if</span> X = $50
+ lda <span class="hljs-comment">#$44</span>
+<span class="hljs-symbol">next:</span>
+ lda <span class="hljs-comment">#$00</span>
+</code></pre>
+<h4>BIT - Bit Test</h4>
+<p>Performs AND except only the flags are modified. eg.</p>
+<pre><code class="hljs ruby"><span class="hljs-symbol">A:</span> <span class="hljs-number">0010</span>    bit <span class="hljs-comment">#$80    ; "AND"s $80 to accumulator but result not stored</span>
+<span class="hljs-symbol">A:</span> <span class="hljs-number">0010</span>
+</code></pre>
+<h4>BMI - Branch if Minus</h4>
+<p>Branches if negative flag is set.</p>
+<h4>BNE - Branch if not equal</h4>
+<p>Branches if zero flag clear. Good when used with comparison. You can branch if the number it not equal to.</p>
+<h4>BPL - Branch if plus</h4>
+<p>Branches if negative flag clear.</p>
+<h4>BRA - Branch always</h4>
+<p>Branch to location PC + n where n is the difference between the current PC and the label we want to branch to.</p>
+<h4>BRK - Break to instruction</h4>
+<p>Causes a software break. The PC is loaded from a vector table from somewhere around <code>$FFE6</code>.</p>
+<h4>BRL - Branch Relative Long</h4>
+<p>Like BRA but with longer range (-32768 to 32767).</p>
+<h4>BVC - Branch if Overflow Clear</h4>
+<p>Branches if overflow flag is clear.</p>
+<h4>BVS - Branch if Overflow Set</h4>
+<p>Opposite of BVC.</p>
+<h4>CLC - Clear Carry Flag</h4>
+<p>Clears the carry flag.</p>
+<h4>CLD - Clear Decimal Flag</h4>
+<p>Clears the decimal flag.</p>
+<h4>CLI - Clear Interrupt Flag</h4>
+<p>Clears the interrupt Flag.</p>
+<h4>CLV - Clear Overflow Flag</h4>
+<p>Clears the Overflow flag.</p>
+<h4>CMP - Compare Accumulator with memory</h4>
+<h4>CPX - Compare X with memory</h4>
+<h4>CPY - Compare Y with memory</h4>
+<p>Compares Accumulator, X or Y with the operand. The <code>n-----zc</code> flags are affected by the comparison. If the result is negative, the n flag is set. If the result is zero (or equal), the z flag is set. Carry is clear when borrow is required; that is, if the register is less than the operand. eg.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0020</span> P: --mx-i--        <span class="hljs-keyword">cmp</span> #<span class="hljs-number">$20</span>    <span class="hljs-comment">; compare accumulator with $20, if equal, z flag is set</span>
+A: <span class="hljs-number">0020</span> P: --mx-iz-        <span class="hljs-keyword">beq</span> next    <span class="hljs-comment">; branch if equal</span>
+</code></pre>
+<h4>COP - Coprocessor Empowerment</h4>
+<p>Causes a software interrupt using a vector.</p>
+<h4>DEC - Decrement Accumulator</h4>
+<h4>DEX - Decrement X</h4>
+<h4>DEY - Decrement Y</h4>
+<p>Subtracts 1 from A, X or Y. eg.</p>
+<pre><code class="hljs">Y: 0001    dey
+Y: 0000
+</code></pre>
+<h4>EOR - Exclusive OR accumulator</h4>
+<p>Also known as "XOR".  Performs XOR to the Accumulator. eg.</p>
+<pre><code class="hljs armasm">A: FFFF    <span class="hljs-keyword">eor</span> #$DDDD
+A: <span class="hljs-number">2222</span>
+</code></pre>
+<h4>INC - Increment Accumulator</h4>
+<h4>INX - Increment X</h4>
+<h4>INY - Increment Y</h4>
+<p>Adds 1 to A, X or Y. eg.</p>
+<pre><code class="hljs">A: 0000    inc
+A: 0001
+</code></pre>
+<h4>JMP - Jump to location</h4>
+<h4>JML - Jump long</h4>
+<p>The JMP command will jump to a location within the bank. The JML will jump to places out of the current bank. eg.</p>
+<pre><code class="hljs ruby"><span class="hljs-symbol">PBR:</span> $80    jmp $5500      ; jumps to $80<span class="hljs-symbol">:</span><span class="hljs-number">5500</span>
+<span class="hljs-symbol">PBR:</span> $80    jml $908000    ; jumps to $90<span class="hljs-symbol">:</span><span class="hljs-number">8000</span>
+<span class="hljs-symbol">PBR:</span> $90                   ; the PBR is updated <span class="hljs-keyword">in</span> long jump
+</code></pre>
+<h4>JSR - Jump Subroutine</h4>
+<h4>JSL - Jump Subroutine Long</h4>
+<p>If you already know a programming language, this is basically calling a function. This performs the same as JMP except the address of the current program counter is saved. In subroutines, the RTS and RTL are used to return back to the saved address.</p>
+<h4>LDA - Load Accumulator with memory</h4>
+<h4>LDX - Load X with memory</h4>
+<h4>LDY - Load Y with memory</h4>
+<p>Loads the Accumulator, X, Y with a value.</p>
+<h4>LSR - Shift Right Accumulator, Memory</h4>
+<p>Shifts Memory or Accumulator right one bit. eg.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0080</span>    <span class="hljs-keyword">lsr</span> A    <span class="hljs-comment">; Shift right by 1: 0x80 &gt;&gt; 1</span>
+A: <span class="hljs-number">0040</span>
+</code></pre>
+<h4>MVN - Block move negative</h4>
+<h4>MVP - Block move positive</h4>
+<p>A should hold the number of bytes to transfer minus one, meaning that a value of zero will transfer one byte. X and Y are the source and destination addresses, respectively, leaving out the banks. The banks are passed as the two operands of the instruction.</p>
+<p>In MVN, X and Y are the bottom bytes of the source and destination blocks. After a byte is copied, both X and Y are incremented and A is decremented until A reaches $FFFF (after decrementing $0000), meaning that bytes from X to X + A were copied to the range from Y to Y + A.</p>
+<p>In MVP, X and Y are the top bytes of the source and destination blocks. X, Y and A are decremented after each byte is copied, until A reaches $FFFF, so bytes from X to X - A are copied to the range from Y to Y - A.</p>
+<p>Usually, MVN is used when the destination range is in a lower address than the source, otherwise MVP is used. This is a rule that avoids problems when the two address ranges overlap, assuring that every overlapping byte is read before being overwritten. However, as long as the programmer is aware of the consequences, it is possible to get useful results using the instructions the other way.</p>
+<pre><code class="hljs armasm">                           <span class="hljs-comment">; This example follows the rule of thumb: (src &lt; dest) -&gt; mvp</span>
+                           <span class="hljs-comment">; So it copies the memory as expected</span>
+X: ???? Y: ???? A: ????    rep #<span class="hljs-number">$30</span>     <span class="hljs-comment">; Make Accumulator and index 16-bit</span>
+X: ???? Y: ???? A: ????    ldx #<span class="hljs-number">$1100</span>   <span class="hljs-comment">; Set X to $1100</span>
+X: <span class="hljs-number">1100</span> Y: ???? A: ????    ldy #<span class="hljs-number">$1180</span>   <span class="hljs-comment">; Set Y to $1180</span>
+X: <span class="hljs-number">1100</span> Y: <span class="hljs-number">1180</span> A: ????    lda #<span class="hljs-number">$00</span>FF   <span class="hljs-comment">; Set A to $00FF</span>
+X: <span class="hljs-number">1100</span> Y: <span class="hljs-number">1180</span> A: <span class="hljs-number">00</span>FF    mvp <span class="hljs-number">$7</span>E,<span class="hljs-number">$7</span>E  <span class="hljs-comment">; Block move $100 bytes from $7E:1001-1100 -&gt; $7E:1081-1180</span>
+X: <span class="hljs-number">1000</span> Y: <span class="hljs-number">1080</span> A: FFFF    ...
+
+                           <span class="hljs-comment">; This example does not follow the rule</span>
+                           <span class="hljs-comment">; (taken from Bushi Seiryuuden, 808B2F-808B3A)</span>
+                           <span class="hljs-comment">; In this case, two bytes are repeated over and over</span>
+X: ???? Y: ???? A: ????    ldx #<span class="hljs-number">$28</span><span class="hljs-built_in">C0</span>   <span class="hljs-comment">; Set X to $28C0</span>
+X: <span class="hljs-number">28</span><span class="hljs-built_in">C0</span> Y: ???? A: ????    ldy #<span class="hljs-number">$28</span><span class="hljs-built_in">C2</span>   <span class="hljs-comment">; Set Y to $28C2</span>
+X: <span class="hljs-number">28</span><span class="hljs-built_in">C0</span> Y: <span class="hljs-number">28</span><span class="hljs-built_in">C2</span> A: ????    lda #<span class="hljs-number">$013</span>D   <span class="hljs-comment">; Set A to $013D</span>
+X: <span class="hljs-number">28</span><span class="hljs-built_in">C0</span> Y: <span class="hljs-number">28</span><span class="hljs-built_in">C2</span> A: <span class="hljs-number">013</span>D    <span class="hljs-keyword">mvn</span> <span class="hljs-number">$7</span>E,<span class="hljs-number">$7</span>E  <span class="hljs-comment">; The values at $7E:28C0-28C1 are repeated for $013E bytes</span>
+X: <span class="hljs-number">29</span>FE Y: <span class="hljs-number">2</span>A00 A: FFFF    ...
+</code></pre>
+<h4>NOP - No operation</h4>
+<p>Does nothing but take up 2 cycles.</p>
+<h4>ORA - "OR" Accumulator with memory</h4>
+<p>Performs "OR" to Accumulator. eg.</p>
+<pre><code class="hljs ruby"><span class="hljs-symbol">A:</span> <span class="hljs-number">005</span>F    ora <span class="hljs-comment">#$7F    ; 0x5F | 0x7F</span>
+<span class="hljs-symbol">A:</span> <span class="hljs-number">007</span>F
+</code></pre>
+<h4>PEA - Push Effective Address</h4>
+<p>Pushes a 16-bit operand onto the stack. The instruction is very misleading because you are really pushing an immediate onto the stack. eg.</p>
+<pre><code class="hljs ruby"><span class="hljs-symbol">S:</span> <span class="hljs-number">1</span>FFF    pea $FFFF    ; Pushes $FFFF onto the stack
+<span class="hljs-symbol">S:</span> <span class="hljs-number">1</span>FFD                 ; stack decrements by <span class="hljs-number">2</span>
+</code></pre>
+<h4>PEI - Push Effective Indirect Address</h4>
+<p>Pushes a 16-bit value from the indirect address of the operand. eg.</p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">Memory</span> Dump:
+<span class="hljs-number">0000</span>: <span class="hljs-number">23</span> <span class="hljs-number">33</span> <span class="hljs-number">45</span> <span class="hljs-number">22</span> DD <span class="hljs-built_in">C7</span> FF <span class="hljs-number">8</span>D
+<span class="hljs-number">0001</span>: <span class="hljs-number">99</span> <span class="hljs-number">99</span> <span class="hljs-number">90</span> <span class="hljs-number">88</span> DD FF CC <span class="hljs-number">67</span>
+S: <span class="hljs-number">1</span>FFF    pei (<span class="hljs-number">$01</span>)    <span class="hljs-comment">; push $4533 on the stack</span>
+S: <span class="hljs-number">1</span>FFD
+</code></pre>
+<h4>PER - Push Program Counter Relative</h4>
+<p>Pushes a 16-bit from that address taken by the current PC added to the operand. The range must be within (<code>0-65535</code>).</p>
+<h4>PHA - Push Accumulator</h4>
+<h4>PHD - Push Direct Page Register</h4>
+<h4>PHK - Push Program Bank</h4>
+<h4>PHX - Push X</h4>
+<h4>PHY - Push Y</h4>
+<p>Pushes the operand onto the stack.</p>
+<h4>PLA - Pull Accumulator</h4>
+<h4>PLD - Pull Direct Page Register</h4>
+<h4>PLP - Pull Flags</h4>
+<h4>PLX - Pull X</h4>
+<h4>PLY - Pull Y</h4>
+<p>Pops a value off the stack and stores it in the operand.</p>
+<h4>REP - Reset Flag</h4>
+<p>Clears the bits specified in the operands of the flag. eg.</p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">rep</span> #<span class="hljs-number">$30</span>    <span class="hljs-comment">; Clears bit 4 &amp; 5 to make A, X, Y 16-bits</span>
+</code></pre>
+<h4>ROL - Rotate Bit Left</h4>
+<p>Equivalent to ASL, except the carry flag rather than a zero is shifted into the least significant bit. This operation acts as a 9-bit rotation in 8-bit mode or a 17-bit rotation in 16-bit mode.</p>
+<pre><code class="hljs">A: 8000    rol A    ; rotate 1 left
+A: 0001
+</code></pre>
+<h4>ROR - Rotate Bit Right</h4>
+<p>Equivalent to LSR, except the carry flag rather than a zero is shifted into the most significant bit rather than a zero. This operation acts as a 9-bit rotation in 8-bit mode or a 17-bit rotation in 16-bit mode.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0001</span>    <span class="hljs-keyword">ror</span> A    <span class="hljs-comment">; rotate 1 right</span>
+A: <span class="hljs-number">8000</span>
+</code></pre>
+<h4>RTI - Return from Interrupt</h4>
+<p>Used to return from a interrupt handler.</p>
+<h4>RTS - Return from Subroutine</h4>
+<h4>RTL - Return from Subroutine Long</h4>
+<p>Return the PC to the saved address caused by the JSR and JSL command. eg.</p>
+<pre><code class="hljs ruby">    jsl sub    ; jump to subroutine at label <span class="hljs-string">"sub"</span>
+    .
+    .
+    .
+<span class="hljs-symbol">sub:</span>
+    lda <span class="hljs-comment">#$0000    ; some code</span>
+    rtl        ; <span class="hljs-keyword">return</span>
+</code></pre>
+<h4>SBC - Subtract with Carry</h4>
+<p>Subtracts operand from the Accumulator; subtracts an additional 1 if carry is <strong>clear</strong>.</p>
+<h4>SEC - Set Carry Flag</h4>
+<p>Sets the carry flag.</p>
+<h4>SED - Set Decimal Flag</h4>
+<p>Sets the decimal flag.</p>
+<h4>SEI - Set Interrupt Flag</h4>
+<p>Sets the interrupt flag.</p>
+<h4>SEP - Set Flag</h4>
+<p>Sets certain bits of the flag depending on the operand. eg.</p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">sep</span> #<span class="hljs-number">$20</span>    <span class="hljs-comment">; set bit 5 of P to make A 8-bits</span>
+</code></pre>
+<h4>STA - Store Accumulator to memory</h4>
+<h4>STX - Store X to memory</h4>
+<h4>STY - Store Y to memory</h4>
+<p>Stores the Accumulator, X or Y to a memory location. eg.</p>
+<pre><code class="hljs ruby"><span class="hljs-symbol">A:</span> <span class="hljs-number">000</span>F    sep <span class="hljs-comment">#$20    ; 8-bit A</span>
+<span class="hljs-symbol">A:</span> <span class="hljs-number">000</span>F    sta $2100    ; Stores $0F to $2100
+</code></pre>
+<h4>STP - Stop the clock</h4>
+<p>Dies.</p>
+<h4>STZ - Store zero to memory</h4>
+<p>Stores zero to a memory location. eg.</p>
+<pre><code class="hljs ruby">stz $2101    ; store <span class="hljs-number">0</span> to $2101
+</code></pre>
+<h4>TAX - Transfer Accumulator to X</h4>
+<h4>TAY - Transfer Accumulator to Y</h4>
+<h4>TCD - Transfer Accumulator to Direct Page</h4>
+<p>sets the direct page to whatever is in A</p>
+<pre><code class="hljs ruby">lda <span class="hljs-comment">#$0000    ;the C refers to 16bit A</span>
+tcd
+lda $34       ;same as lda $0034
+</code></pre>
+<h4>TCS - Transfer Accumulator to Stack</h4>
+<h4>TDC - Transfer Direct Page to Accumulator</h4>
+<p>if direct page is 0 then this functions to clear out 16bit A</p>
+<pre><code class="hljs ruby">lda.w <span class="hljs-comment">#$0000  ;3 bytes, 3 cycles</span>
+tdc           ;<span class="hljs-number">1</span> byte, <span class="hljs-number">2</span> cycles
+</code></pre>
+<h4>TSC - Transfer Stack to Accumulator</h4>
+<h4>TSX - Transfer stack to X</h4>
+<h4>TXA - Transfer X to Accumulator</h4>
+<h4>TXS - Transfer X to Stack</h4>
+<h4>TXY - Transfer X to Y</h4>
+<h4>TYA - Transfer Y to Accumulator</h4>
+<h4>TYX - Transfer Y to X</h4>
+<p>Copies the content of one register to another. eg.</p>
+<pre><code class="hljs armasm">A: <span class="hljs-number">0099</span> X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0020</span> S: FFFF    rep #<span class="hljs-number">$30</span>
+A: <span class="hljs-number">0099</span> X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0020</span> S: FFFF    lda #<span class="hljs-number">$0000</span>    <span class="hljs-comment">; load A with 0</span>
+A: <span class="hljs-number">0000</span> X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0020</span> S: FFFF    tcd           <span class="hljs-comment">; transfer A -&gt; D</span>
+A: <span class="hljs-number">0000</span> X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0000</span> S: FFFF    txa           <span class="hljs-comment">; X -&gt; A</span>
+A: <span class="hljs-number">1</span>FFF X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0000</span> S: FFFF    tcs           <span class="hljs-comment">; A -&gt; S</span>
+A: <span class="hljs-number">1</span>FFF X: <span class="hljs-number">1</span>FFF Y:<span class="hljs-number">5656</span> D:<span class="hljs-number">0000</span> S: <span class="hljs-number">1</span>FFF
+</code></pre>
+<p>You get the idea.</p>
+<h4>TRB - Test and Reset Bit</h4>
+<p>Tests the bit similarly to "AND", and clears it, while affecting the flags.</p>
+<h4>TSB - Test and Set Bit</h4>
+<p>Tests the bit similarly to "AND", and sets it, while affecting the flags.</p>
+<h4>WAI - Wait for Interrupt</h4>
+<p>Waits until a hardware interrupt is triggered.</p>
+<h4>XCE - Exchange Carry with Emulation</h4>
+<p>Well, the 65816 has actually 2 modes. Native and (6502) emulation mode. This tutorial deals with native only. The emulation bit shares the same bit as the carry flag so to put ourselves in native mode, we can only set the emulation flag via the carry and exchanging it. For native mode, the emulation flag must be off. To switch to native mode, we must clear the carry and exchange it. eg.</p>
+<pre><code class="hljs">clc
+xce
+</code></pre>
+<p><em>Instruction usage adapted from <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/jay&#39;s-asm-tutorial">Jay's ASM Tutorial</a></em></p>
+<h2 id="toc-4">Datasheets, Manuals etc.</h2>
+<p>Western Design Center Inc. has documentation on the 65816 <a href="https://web.archive.org/web/20200712170444/http://westerndesigncenter.com/wdc/documentation.cfm" rel="external nofollow noreferrer" target="_blank">here</a>.</p>
+<p>Of particular interest would be the <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/uploads/assembly-programming-manual-for-w65c816.pdf">assembly-programming-manual-for-w65c816.pdf</a> aka "Programming the 65816 including the 6502, 65C02, and 65802" by David Eyes and Ron Lichty.</p>
+        </article>
+      </main>
+    </div>
+    <div class="row actions">
+      <main class="col-sm-12">
+        <a class="button" href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference/edit" title="Edit">✏️ Edit</a>
+        <a class="button" href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference/history" title="View Document Edit History">📕 View History</a>
+        
+      </main>
+    </div>
+    
+    <div class="row bottom">
+      <main class="col-sm-12">
+        <div class="row content-sections">
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Related Documents</h2>
+              
+              <ul class="related-documents">
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference" title="65816 Reference">65816 Reference</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/bs-x-bios-functions" title="BS-X BIOS Functions">BS-X BIOS Functions</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/backgrounds" title="Backgrounds">Backgrounds</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/bit-rate-reduction-(brr)" title="Bit Rate Reduction (BRR)">Bit Rate Reduction (BRR)</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/capcom-cx4-hitachi-hg51b169" title="Capcom Cx4 - Hitachi HG51B169">Capcom Cx4 - Hitachi HG51B169</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Recent Documents</h2>
+              
+              <ul class="recent-documents">
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/byuu" title="byuu">byuu</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/sfc-sound-manual" title="SFC サウンドマニュアル">SFC サウンドマニュアル</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/satellaview-download-data" title="Satellaview Download Data">Satellaview Download Data</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/bs-x-bios-functions" title="BS-X BIOS Functions">BS-X BIOS Functions</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/widespread-myths" title="Widespread Myths">Widespread Myths</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Popular Documents</h2>
+              
+              <ul class="popular-documents">
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/spc700-reference" title="SPC700 Reference">SPC700 Reference</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/registers" title="Registers">Registers</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/schematics-ports-and-pinouts" title="Schematics, Ports, and Pinouts">Schematics, Ports, and Pinouts</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/memory-mapping" title="Memory Mapping">Memory Mapping</a>
+                </li>
+                
+                <li>
+                  <a href="https://web.archive.org/web/20200712170444/https://wiki.superfamicom.org/65816-reference" title="65816 Reference">65816 Reference</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    
+  </div>
+</div>
+
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="row">
+      ©2020 Super Famicom Development Wiki | 🐌 | 🌺 | <a href="https://web.archive.org/web/20200712170444/https://github.com/uttori" rel="external">Powered by Uttori Wiki</a>
+    </div>
+  </div>
+</footer>
+<script src="./65816 Reference _ Super Famicom Development Wiki_files/page.js.download"></script>
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-315321-11', 'auto');
+ga('send', 'pageview');
+</script>
+<script async="" src="./65816 Reference _ Super Famicom Development Wiki_files/analytics.js(1).download"></script>
+
+
+
+<!--
+     FILE ARCHIVED ON 17:04:44 Jul 12, 2020 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 11:06:35 Aug 05, 2020.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+-->
+<!--
+playback timings (ms):
+  PetaboxLoader3.datanode: 273.067 (4)
+  captures_list: 289.078
+  RedisCDXSource: 8.603
+  PetaboxLoader3.resolve: 1231.606
+  exclusion.robots.policy: 0.426
+  LoadShardBlock: 257.183 (3)
+  esindex: 0.014
+  exclusion.robots: 0.444
+  CDXLines.iter: 19.412 (3)
+  load_resource: 1434.582
+--></body></html>

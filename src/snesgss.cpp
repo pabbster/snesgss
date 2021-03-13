@@ -3,8 +3,8 @@
 #include <vcl.h>
 #pragma hdrstop
 //---------------------------------------------------------------------------
-USEFORM("UnitMain.cpp", FormMain);
 USEFORM("UnitTranspose.cpp", FormTranspose);
+USEFORM("UnitMain.cpp", FormMain);
 USEFORM("UnitReplace.cpp", FormReplace);
 USEFORM("UnitSectionName.cpp", FormName);
 USEFORM("UnitSectionList.cpp", FormSectionList);

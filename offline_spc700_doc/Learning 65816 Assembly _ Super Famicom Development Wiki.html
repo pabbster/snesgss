@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!-- saved from url=(0146)https://webcache.googleusercontent.com/search?q=cache:uIxtv-WSfwwJ:https://wiki.superfamicom.org/learning-65816-assembly+&cd=1&hl=en&ct=clnk&gl=jp -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!--<base href="https://wiki.superfamicom.org/learning-65816-assembly">--><base href="."><style>body{margin-left:0;margin-right:0;margin-top:0}#bN015htcoyT__google-cache-hdr{background:#f5f5f5;font:13px arial,sans-serif;text-align:left;color:#202020;border:0;margin:0;border-bottom:1px solid #cecece;line-height:16px;padding:16px 28px 24px 28px}#bN015htcoyT__google-cache-hdr *{display:inline;font:inherit;text-align:inherit;color:inherit;line-height:inherit;background:none;border:0;margin:0;padding:0;letter-spacing:0}#bN015htcoyT__google-cache-hdr a{text-decoration:none;color:#1a0dab}#bN015htcoyT__google-cache-hdr a:hover{text-decoration:underline}#bN015htcoyT__google-cache-hdr a:visited{color:#609}#bN015htcoyT__google-cache-hdr div{display:block;margin-top:4px}#bN015htcoyT__google-cache-hdr b{font-weight:bold;display:inline-block;direction:ltr}</style></head><body><div id="bN015htcoyT__google-cache-hdr"><div><span>This is Google's cache of <a href="https://wiki.superfamicom.org/learning-65816-assembly">https://wiki.superfamicom.org/learning-65816-assembly</a>.</span>&nbsp;<span>It is a snapshot of the page as it appeared on 4 Aug 2020 03:57:31 GMT.</span>&nbsp;<span>The <a href="https://wiki.superfamicom.org/learning-65816-assembly">current page</a> could have changed in the meantime.</span>&nbsp;<a href="http://support.google.com/websearch/bin/answer.py?hl=en&amp;p=cached&amp;answer=1687222"><span>Learn more</span>.</a></div><div><span style="display:inline-block;margin-top:8px;margin-right:104px;white-space:nowrap"><span style="margin-right:28px"><span style="font-weight:bold">Full version</span></span><span style="margin-right:28px"><a href="http://webcache.googleusercontent.com/search?q=cache:uIxtv-WSfwwJ:https://wiki.superfamicom.org/learning-65816-assembly&amp;hl=en&amp;gl=jp&amp;strip=1&amp;vwsrc=0"><span>Text-only version</span></a></span><span style="margin-right:28px"><a href="http://webcache.googleusercontent.com/search?q=cache:uIxtv-WSfwwJ:https://wiki.superfamicom.org/learning-65816-assembly&amp;hl=en&amp;gl=jp&amp;strip=0&amp;vwsrc=1"><span>View source</span></a></span></span></div><span style="display:inline-block;margin-top:8px;color:#717171"><span>Tip: To quickly find your search term on this page, press <b>Ctrl+F</b> or <b>⌘-F</b> (Mac) and use the find bar.</span></span></div><div style="position:relative;">
+
+
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Learning 65816 Assembly | Super Famicom Development Wiki</title>
+
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary">
+
+
+<meta name="description" content="&lt;p&gt;I trust that you have learned some other kind of assembly language. If you have not, I&#39;m afraid that learning &lt;a href=&quot;/65816-reference&quot;&gt;65816&lt;/a&gt; as your first assembly l&lt;/p&gt;">
+<meta property="og:description" content="&lt;p&gt;I trust that you have learned some other kind of assembly language. If you have not, I&#39;m afraid that learning &lt;a href=&quot;/65816-reference&quot;&gt;65816&lt;/a&gt; as your first assembly l&lt;/p&gt;">
+<meta property="twitter:description" content="&lt;p&gt;I trust that you have learned some other kind of assembly language. If you have not, I&#39;m afraid that learning &lt;a href=&quot;/65816-reference&quot;&gt;65816&lt;/a&gt; as your first assembly l&lt;/p&gt;">
+
+
+
+<meta property="og:title" content="Learning 65816 Assembly">
+<meta property="twitter:title" content="Learning 65816 Assembly">
+
+
+
+<meta property="og:site_name" content="Super Famicom Development Wiki">
+
+
+
+<meta property="og:locale" content="en_US">
+
+
+
+
+
+<meta name="twitter:site" content="@superfamicom">
+
+
+
+<meta name="twitter:creator" content="@superfamicom">
+
+
+
+<meta property="article:publisher" content="http://localhost:8000">
+
+
+
+<meta property="og:url" content="http://localhost:8000//learning-65816-assembly">
+<link rel="canonical" href="http://localhost:8000//learning-65816-assembly">
+
+
+
+
+
+
+<meta property="article:modified_time" content="2018-09-30T23:43:25.052Z">
+<meta property="og:updated_time" content="2018-09-30T23:43:25.052Z">
+
+
+<link rel="stylesheet" href="./Learning 65816 Assembly _ Super Famicom Development Wiki_files/style.css" media="all">
+<link rel="apple-touch-icon" href="https://wiki.superfamicom.org/apple-touch-icon.png">
+
+<script>
+window.basePath = '';
+</script>
+
+
+<header class="navbar" role="banner">
+  <div class="background">
+    <div class="container">
+      <div class="navbar-header">
+        <h2 class="navbar-brand">
+          <a href="https://wiki.superfamicom.org/" title="Super Famicom Development Wiki">SFC Development Wiki</a>
+        </h2>
+        <form role="search" method="get" name="search" class="navbar-form" action="https://wiki.superfamicom.org/search">
+          <input type="text" aria-label="Search" value="" name="s" class="form-control search-query" placeholder="🔍 Search Super Famicom Development Wiki">
+        </form>
+        <div class="navbar-button">
+          <a href="https://wiki.superfamicom.org/tags" class="button tags" title="Browse Document Tags">Browse Tags</a>
+        </div>
+        <div class="navbar-button">
+          <a href="https://wiki.superfamicom.org/new" class="button new-document" title="Create New Document">New Document</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- View Object
+{
+    document = [document] Current document,
+    title = [string] Current title,
+    relatedDocuments = [array] Collection of related documents,
+    recentDocuments = [array] Collection of recent documents,
+    popularDocuments = [array] Collection of popular documents,
+    config = [config] Global config
+}
+-->
+<div class="before-main-wrapper">
+  <div class="header-wrapper">
+    <div class="container">
+      <div class="header-titles">
+        <h1>Learning 65816 Assembly</h1>
+        <a class="button" href="https://wiki.superfamicom.org/learning-65816-assembly/edit" title="Edit">✏️ Edit</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container main-section detail">
+  <div class="content">
+    <div class="row">
+      <main class="col-sm-12" role="main">
+        <article>
+          <div class="toc"><ul>
+<li class="toc-li-0 toc-3"><a href="https://wiki.superfamicom.org/search#toc-1">Modes of Operation</a></li>
+<li class="toc-li-1 toc-3"><a href="https://wiki.superfamicom.org/search#toc-2">Registers</a></li>
+<li class="toc-li-2 toc-3"><a href="https://wiki.superfamicom.org/search#toc-3">Number Format</a></li>
+<li class="toc-li-3 toc-3"><a href="https://wiki.superfamicom.org/search#toc-4">Changing bits in the P Register</a></li>
+<li class="toc-li-4 toc-3"><a href="https://wiki.superfamicom.org/search#toc-5">Basic Opcodes</a></li></ul></div>
+          <p>I trust that you have learned some other kind of assembly language. If you have not, I'm afraid that learning <a href="https://wiki.superfamicom.org/65816-reference">65816</a> as your first assembly language may be extremely hard. However, I won't stop you from trying. You will need other <a href="https://wiki.superfamicom.org/65816-reference">65816</a> documents, because I do not teach much in this tutorial. These tutorials are for teaching you how to use <a href="https://wiki.superfamicom.org/65816-reference">65816</a> with the SNES, so I'm trying to write the main material first. Maybe later I'll really expand this part and make it full. But really, the <a href="https://wiki.superfamicom.org/65816-reference">65816</a> documents I linked you to earlier teach everything, so it would be really redundant for me to write a <a href="https://wiki.superfamicom.org/65816-reference">65816</a> tutorial. However, if I receive feedback asking for one, I will make an effort. Ok, let's begin.</p>
+<h3 id="toc-1">Modes of Operation</h3>
+<ul>
+<li>The <a href="https://wiki.superfamicom.org/65816-reference">65816</a> can run in 2 modes of operation, Native <a href="https://wiki.superfamicom.org/65816-reference">65816</a> mode and 6502 Emulation mode.</li>
+<li>The <a href="https://wiki.superfamicom.org/65816-reference">65816</a> boots up in 6502 Emulation mode. (I found that odd, but whatever)</li>
+<li>We'll be programming in Native mode, otherwise it would be like coding for NES (somewhat).</li>
+</ul>
+<h3 id="toc-2">Registers</h3>
+<h4>Accumulator</h4>
+<ul>
+<li>This register may be either 16 or 8 bits (depending on bit 5 of the status register. more on this later).</li>
+<li>This register is used for most general-purposes.</li>
+<li>When in 8-bit mode, the low byte is accessible, and the high byte is not. However, you can exchange both the high and low byte.</li>
+<li>When in 16-bit mode, all 2 bytes are accessible and the accumulator is designated as C.</li>
+</ul>
+<h4>X,Y Index Registers</h4>
+<ul>
+<li>The X and Y index registers can also be designated as 8 or 16 bits in size.</li>
+<li>I usually see these kept set as 16 bits in size.</li>
+<li>You will come to see their usefulness. One example is using them as counters.</li>
+</ul>
+<h4>Direct Page Register (D), Stack Pointer (S), Program Bank Register (PBR), Data Bank Register (DBR)</h4>
+<ul>
+<li>Please see section 3.13-3.16 of the 65816 Primer for information on these registers. I would only be quoting, and I don't feel like it, so just read those sections. I will at least provide some notes.</li>
+<li>The stack grows downwards.</li>
+<li>I usually see the program's init routine set the stack to $1FFF</li>
+<li>I usually see a program's init routine set the DBR = PBR</li>
+<li>I also see the direct page set to $0000</li>
+<li>So far, I have not really had to do any heavy messing around with these registers, so if your a little confused by the descriptions have no fear.</li>
+</ul>
+<h4>Processor Status Register (P)</h4>
+<ul>
+<li>See Section 3.01 of the 65816 Primer for a GREAT graphic description of the processor status register.</li>
+</ul>
+<h3 id="toc-3">Number Format</h3>
+<p>It's the same as NES if you have coded NES before. In previous ASM languages you may have written in, you may have used <code>$10</code> or <code>10h</code> to say that the number is in hex, and <code>[$10]</code> to say that it's a hex address. Well it's a little different for the SNES. To use an immediate value (not an address, just a number), you place a # before the number. #16 = 16 decimal number. To use an immediate hex value, use <code>#$</code>. <code>#$10 = 10 hex</code>, or 16 decimal. To use an immediate binary value, use <code>#%</code>. <code>#%00000011 = 3 decimal</code>. To say the number is an address, use <code>$</code>. <code>$2000</code> for example... We basically took out the #, which meant it was an immediate value. See? That's that!</p>
+<h3 id="toc-4">Changing bits in the P Register</h3>
+<p>To alter bits in the Processor Status Register, simply use the opcodes SEP #xx or REP #xx. SEP sets bits (makes the bits 1) and REP resets bits (makes the bits 0). Assuming you read section 3.01 of the 65816 Primer, let's go and make the accumulator 8 bits and the XY registers 16 bits in size.</p>
+<pre><code class="hljs ruby">sep <span class="hljs-comment">#$10</span>
+rep <span class="hljs-comment">#$20</span>
+
+I could also write (<span class="hljs-keyword">for</span> visual simplicity)
+rep <span class="hljs-comment">#%00010000</span>
+sep <span class="hljs-comment">#%00100000</span>
+</code></pre>
+<p><code>nvMXdizc</code> - these are simply helpful abbreviations of bits 0-7 of the Processor Status Register. See how we REP'd and SEP'd the P register to set A to 8 bits, and X/Y to 16 bits? Resetting the M or X bits (of nvmxdizc) makes the register(s) 16 bits, setting the bit makes it 8 bits.</p>
+<h3 id="toc-5">Basic Opcodes</h3>
+<p>This is another crappy listing, simply because the docs already out there are already enough to get you going. Nonetheless, here is a brief and crappy intro. There are many ways to use most opcodes, so I will only list a couple basic methods. I encourage you to look in Appendix A of the 65816 Primer for more addressing modes of each opcode. Appendix A tells you everything for almost every opcode, so be sure to check it out.</p>
+<p>Notes: I've taken the syntax conventions from 65816 Primer for simplicity:</p>
+<pre><code class="hljs armasm"><span class="hljs-keyword">addr</span>          <span class="hljs-number">2</span> byte address
+<span class="hljs-symbol">const</span>         <span class="hljs-number">1</span> or <span class="hljs-number">2</span> byte constant (immediate number)
+<span class="hljs-symbol">label</span>         label of <span class="hljs-meta">code</span> in same <span class="hljs-number">64</span>K bank as instruction
+<span class="hljs-symbol">nearlabel</span>     label of <span class="hljs-meta">code</span> close enough to instruction to be reachable by a one-byte signed offset (-<span class="hljs-number">127</span>/+<span class="hljs-number">127</span>).
+<span class="hljs-symbol">long</span>          <span class="hljs-number">3</span>-byte address (includes bank byte)
+</code></pre>
+<p><strong>LDA : Load Accumulator with memory</strong>
+Usage:</p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">LDA</span> <span class="hljs-symbol">#const</span>
+<span class="hljs-symbol">LDA</span> <span class="hljs-keyword">addr</span>
+<span class="hljs-symbol">LDA</span> long
+<span class="hljs-symbol">LDA</span> addr,X
+<span class="hljs-symbol">...</span>- You will be using this a LOT to load values <span class="hljs-keyword">and</span> values at addresses.
+</code></pre>
+<p><strong>LDX, LDY - Same as above, but for X/Y.</strong></p>
+<p>Also, addressing modes are more limited when using X/Y. See the primer.</p>
+<p><strong>STA : Store A into memory</strong>
+Usage:</p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">STA</span> <span class="hljs-keyword">addr</span>
+<span class="hljs-symbol">STA</span> long
+<span class="hljs-symbol">STA</span> addr,X
+<span class="hljs-symbol">STA</span> addr,Y
+<span class="hljs-symbol">...</span>- You will be using this a LOT to store values in A into addresses.
+</code></pre>
+<p><strong>STY, STX - Same as Above, but for X/Y.</strong></p>
+<p>Also, addressing modes are more limited when using X/Y. See the primer.</p>
+<p><strong>STZ : Store zero byte to memory</strong>
+Usage:</p>
+<pre><code class="hljs ruby">STZ addr
+STZ addr,X
+...
+- A good replacement <span class="hljs-symbol">for:</span>
+lda <span class="hljs-comment">#$00</span>
+sta $xxxx
+</code></pre>
+<p><strong>CLC : Clear Carry Flag</strong></p>
+<pre><code class="hljs armasm"><span class="hljs-symbol">clc</span> before <span class="hljs-keyword">adc</span>
+</code></pre>
+<p><strong>SEC : Set Carry Flag</strong></p>
+<pre><code class="hljs">sec before sbc&gt;
+</code></pre>
+<p><strong>ADC : Add with carry</strong>
+Usage:</p>
+<pre><code class="hljs armasm"><span class="hljs-keyword">ADC</span> <span class="hljs-symbol">#const</span>
+<span class="hljs-keyword">ADC</span> <span class="hljs-keyword">addr</span>
+<span class="hljs-keyword">ADC</span> long
+<span class="hljs-keyword">ADC</span> addr,X
+<span class="hljs-symbol">...</span>- You should CLC before ADC<span class="hljs-string">'ing. 
+- Carry flag set if overflow.
+</span></code></pre>
+<p><strong>SBC : Subtract with carry</strong>
+Usage:</p>
+<pre><code class="hljs armasm"><span class="hljs-keyword">SBC</span> <span class="hljs-symbol">#const</span>
+<span class="hljs-keyword">SBC</span> <span class="hljs-keyword">addr</span>
+<span class="hljs-keyword">SBC</span> long
+<span class="hljs-keyword">SBC</span> addr,X
+<span class="hljs-symbol">...</span>- You should SEC before SBC-ing.
+- Set <span class="hljs-meta">if</span> unsigned borrow not required.
+</code></pre>
+<p>Well that is enough for now don't you agree?? Again please look at the primer and other CPU docs for some real opcode info.</p>
+<p>On to <a href="https://wiki.superfamicom.org/writing-the-header">Writing the Header</a>!</p>
+<p><em>Tutorial by <a href="https://wiki.superfamicom.org/bazz">bazz</a></em></p>
+        </article>
+      </main>
+    </div>
+    <div class="row actions">
+      <main class="col-sm-12">
+        <a class="button" href="https://wiki.superfamicom.org/learning-65816-assembly/edit" title="Edit">✏️ Edit</a>
+        <a class="button" href="https://wiki.superfamicom.org/learning-65816-assembly/history" title="View Document Edit History">📕 View History</a>
+        
+      </main>
+    </div>
+    
+    <div class="row bottom">
+      <main class="col-sm-12">
+        <div class="row content-sections">
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Related Documents</h2>
+              
+              <ul class="related-documents">
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/asm-hacking-for-dummies" title="ASM Hacking for Dummies">ASM Hacking for Dummies</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/asm-tutorial-part-1" title="ASM Tutorial Part 1">ASM Tutorial Part 1</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/asm-tutorial-part-2" title="ASM Tutorial Part 2">ASM Tutorial Part 2</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/general-advice" title="General Advice">General Advice</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/how-to-use-rom-patches" title="How to Use ROM Patches">How to Use ROM Patches</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Recent Documents</h2>
+              
+              <ul class="recent-documents">
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/snes-sprites" title="SNES Sprites">SNES Sprites</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/byuu" title="byuu">byuu</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/sfc-sound-manual" title="SFC サウンドマニュアル">SFC サウンドマニュアル</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/satellaview-download-data" title="Satellaview Download Data">Satellaview Download Data</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/bs-x-bios-functions" title="BS-X BIOS Functions">BS-X BIOS Functions</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <div class="section">
+              <h2>Popular Documents</h2>
+              
+              <ul class="popular-documents">
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/spc700-reference" title="SPC700 Reference">SPC700 Reference</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/registers" title="Registers">Registers</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/schematics-ports-and-pinouts" title="Schematics, Ports, and Pinouts">Schematics, Ports, and Pinouts</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/memory-mapping" title="Memory Mapping">Memory Mapping</a>
+                </li>
+                
+                <li>
+                  <a href="https://wiki.superfamicom.org/65816-reference" title="65816 Reference">65816 Reference</a>
+                </li>
+                
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    
+  </div>
+</div>
+
+
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="row">
+      ©2020 Super Famicom Development Wiki | 🐌 | 🌺 | <a href="https://github.com/uttori" rel="external">Powered by Uttori Wiki</a>
+    </div>
+  </div>
+</footer>
+<script src="./Learning 65816 Assembly _ Super Famicom Development Wiki_files/page.js.download"></script>
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-315321-11', 'auto');
+ga('send', 'pageview');
+</script>
+<script async="" src="./Learning 65816 Assembly _ Super Famicom Development Wiki_files/analytics.js.download"></script>
+
+
+
+</div></body></html>
